@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Vanilla JS / CSS boilerplate for generating JS and CSS libraries in plain CSS, JS, and HTML. Created by LNSY.">
+  <meta name="keywords" content="Vanilla JS, CSS, boilerplate, library, LNSY">
+  <meta name="author" content="LNSY">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph meta tags for better sharing on social media -->
+  <meta property="og:title" content="Vanilla JS / CSS boilerplate">
+  <meta property="og:description" content="Vanilla JS / CSS boilerplate for generating JS and CSS libraries in plain CSS, JS, and HTML. Created by LNSY.">
+  <meta property="og:image" content="./assets/splash.jpg">
+  <meta property="og:url" content="https://example.com"> <!-- Replace with your actual URL -->
+
+  <title>geo map</title>
+  <link rel="stylesheet" type="text/css" href="./styles/index.css">
+  <script src="./src/index.js" type="module"></script>
+  <style type="text/css"> 
+    body {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<geo-map id="geo_map"
+  id="geo_map"
+  accesstoken=pk.eyJ1IjoicmVmbGVjdGl2ZS1lYXJ0aCIsImEiOiJja2VvZHd2YjgwMGJnMnhtcmVsOXRwMWR3In0.KgPtf7QYrYp5g0G2yrvGaA
+  styleurl=mapbox://styles/reflective-earth/cl60yqkiw002o16msz3oc2bxb
+  latitude= 33.86716840617632
+  longitude=-118.12701323464881
+  zoom=9
+  bearing=0
+  pitch=45
+  navigation
+  geolocate
+  geocoder=true
+  search-bounds="-118.48176410291592, 33.66337686568919, -117.58037748630301, 34.41894361494393"
+>
+<geo-json src="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson" variable="mag"></geo-json>
+</geo-map>
+
+</body>
+</html>

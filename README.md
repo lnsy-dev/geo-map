@@ -1,3 +1,47 @@
+## The Basics
+
+
+```html
+<geo-map id="geo_map"
+  id="geo_map"
+  accesstoken={Your Access Token}
+  styleurl={Your Style Url}
+  latitude= 33.86716840617632
+  longitude=-118.12701323464881
+  zoom=9
+  bearing=0
+  pitch=45
+  navigation
+  geolocate
+  geocoder=true
+  search-bounds="-118.48176410291592, 33.66337686568919, -117.58037748630301, 34.41894361494393"
+>
+</geo-map>
+
+```
+
+## geoJson
+
+```html 
+<geo-map id="geo_map"
+  id="geo_map"
+  accesstoken={Your Access Token}
+  styleurl={Your Style Url}
+  latitude= 33.86716840617632
+  longitude=-118.12701323464881
+  zoom=9
+  bearing=0
+  pitch=45
+  navigation
+  geolocate
+  geocoder=true
+  search-bounds="-118.48176410291592, 33.66337686568919, -117.58037748630301, 34.41894361494393"
+>
+<geo-json src="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson" variable="mag"></geo-json>
+</geo-map>
+
+```
+
 ## `GeoMapComponent` Custom Element
 
 ### Attributes:

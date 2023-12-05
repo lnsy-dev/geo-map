@@ -404,7 +404,6 @@ class GeoMapComponent extends HTMLElement {
 
     this.style.opacity = 1;
     this.handleZoom(this.zoom);
-
     this.dispatchEvent(new Event('GEO MAP LOADED'))
   }
 }
