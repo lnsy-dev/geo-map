@@ -176,7 +176,20 @@ class GeoMapComponent extends HTMLElement {
       "settlement-major-label",
       "state-label",
       "country-label",
-      "continent-label"
+      "continent-label",
+      'tunnel-oneway-arrow-blue',
+      'tunnel-oneway-arrow-white',
+      'road-oneway-arrow-blue',
+      'road-oneway-arrow-white',
+      'bridge-oneway-arrow-blue',
+      'bridge-oneway-arrow-white',
+      'buildingswithid',
+      'visible-albedo',
+      'nearby-roofs',
+      'building',
+      'council-wide',
+      'council-wide-query',
+      'council-wide-borders'
     ]
 
     const layers = this.map.getStyle().layers;
@@ -185,7 +198,7 @@ class GeoMapComponent extends HTMLElement {
     // Iterate over the layers and print their IDs
     layers.forEach(function(layer) {
       if(default_layers.indexOf(layer.id) < 0){
-        unique_layers.push(unique_layers);
+        unique_layers.push(layer.id);
       }
     });
 
