@@ -79,7 +79,6 @@ class GeoMapComponent extends HTMLElement {
   getLayer(layer_id){
     // Get the layer by ID
     const layer = this.map.getLayer(layer_id);
-
     // Check if the layer exists
     if (layer) {
       return layer;
@@ -88,7 +87,6 @@ class GeoMapComponent extends HTMLElement {
     }
   }
   getLayers(){
- 
     // These Layers are Default.
     const default_layers = [
       "background",
@@ -190,18 +188,15 @@ class GeoMapComponent extends HTMLElement {
       'council-wide',
       'council-wide-query',
       'council-wide-borders'
-    ]
-
+    ];
     const layers = this.map.getStyle().layers;
     let unique_layers = []
-
     // Iterate over the layers and print their IDs
     layers.forEach(function(layer) {
       if(default_layers.indexOf(layer.id) < 0){
         unique_layers.push(layer.id);
       }
     });
-
     return unique_layers;
   }
 
@@ -211,14 +206,11 @@ class GeoMapComponent extends HTMLElement {
       return response.json();
     })
     .then((data) => {
-
-      console.log(data)
       // Add the GeoJSON layer to the map
       this.map.addSource('geojson-data', {
         type: 'geojson',
         data: data
       });
-
       // Add a layer to visualize the GeoJSON data
       this.map.addLayer({
         id: 'geojson-layer',
@@ -262,7 +254,6 @@ class GeoMapComponent extends HTMLElement {
       pitch: this.pitch,
       interactive: !this.locked
     })
-
     this.initialized = true;
     this.map.on('load', () => {this.mapLoaded()})
   }
@@ -274,7 +265,6 @@ class GeoMapComponent extends HTMLElement {
         return Number(d.trim());
       });
     }
-
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
@@ -283,9 +273,7 @@ class GeoMapComponent extends HTMLElement {
       bbox:bbox,
       placeholder: 'Search for an Address'
     })
-
     this.map.addControl( geocoder )
-   
   }
 
   initializeGeoLocate(){
@@ -293,7 +281,6 @@ class GeoMapComponent extends HTMLElement {
       showAccuracy: false,
       showUserLocation: false
     });
-
     this.map.addControl(geolocate);
   }
 
@@ -330,17 +317,17 @@ class GeoMapComponent extends HTMLElement {
       [mid_zoom_breakpoint, far_zoom_breakpoint] = zoom_breakpoints.split(',').map(n => Number(n));
     }
     if(zoom < far_zoom_breakpoint){
-        this.classList.add('far');
-        this.classList.remove('middle');
-        this.classList.remove('near');
+      this.classList.add('far');
+      this.classList.remove('middle');
+      this.classList.remove('near');
     } else if(zoom >= far_zoom_breakpoint && zoom <= mid_zoom_breakpoint){
-        this.classList.add('middle')
-        this.classList.remove('far')
-        this.classList.remove('near')
+      this.classList.add('middle')
+      this.classList.remove('far')
+      this.classList.remove('near')
     } else {
-        this.classList.add('near')
-        this.classList.remove('middle')
-        this.classList.remove('far')
+      this.classList.add('near')
+      this.classList.remove('middle')
+      this.classList.remove('far')
     }
   }
 
@@ -366,7 +353,6 @@ class GeoMapComponent extends HTMLElement {
         https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-geocoder/`
         return
       } 
-
       this.initializeGeoCoder();
     }
 
@@ -385,9 +371,6 @@ class GeoMapComponent extends HTMLElement {
 
     this.map.on('click', (e) => {
       this.map.flyTo({center:e.lngLat, zoom:18.5});
-      [...document.querySelectorAll('geo-map-modal')].forEach( modal => {
-        modal.hideModal();
-      })
     });
 
     const geo_json_component = this.querySelector('geo-json');
@@ -396,8 +379,6 @@ class GeoMapComponent extends HTMLElement {
       const variable = geo_json_component.getAttribute('variable');
       this.getGeoJSON(src, variable);
     }
-
-
 
     this.style.opacity = 1;
     this.handleZoom(this.zoom);
