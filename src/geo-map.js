@@ -18,6 +18,8 @@ class GeoMapComponent extends HTMLElement {
     this.removeAttribute('accesstoken');
     mapboxgl.accessToken = this.access_token;
 
+    this.style = getComputedStyle(this);
+
     this.styleurl = this.getAttribute('styleurl');
     if(this.styleurl === null || this.styleurl === ""){
       console.warn('could not find style url, using the default');
@@ -207,6 +209,10 @@ class GeoMapComponent extends HTMLElement {
    */
 
   getGeoJSON(geoJsonUrl, property){
+
+    if(this.style.color.length < 1){
+      this.style.color = "#F00";
+    }
     fetch(geoJsonUrl)
     .then(function(response) {
       return response.json();
@@ -231,12 +237,24 @@ class GeoMapComponent extends HTMLElement {
               [10, 20]
             ]
           },
-          'circle-color': '#f00',
+          'circle-color': this.style["color"],
           'circle-opacity': 0.5
         }
       });
 
       this.showLayer('geojson-layer');
+      this.dispatchEvent(
+        new CustomEvent('GEO JSON LOADED', 
+          {
+            detail: {
+              coords,
+              bounds,
+              zoom
+            }
+          }
+        )
+      );
+
     })
     .catch(function(error) {
       console.log('Error fetching GeoJSON:', error);

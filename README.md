@@ -1,68 +1,41 @@
-![Splash Image](./assets/splash.jpg?)
 
-# vanilla-webpack-boilerplate
-For writing passionate Javascript.
+## MAP MOVED Event
+   - **Description:** This event is triggered when the map is moved (center or zoom level changes).
+   - **Usage:**
+     ```javascript
+     geo_map.addEventListener('MAP MOVED', (event) => {
+       const { coords, bounds, zoom } = event.detail;
+       // Your custom logic here
+     });
+     ```
+   - **Parameters:**
+     - `coords`: The geographical coordinates of the map center.
+     - `bounds`: The geographical bounds of the visible map area.
+     - `zoom`: The current zoom level of the map.
 
-Boilerplate for vanilla CSS / JS projects. Great for plugins and libraries! 
+## loaded Event
+   - **Description:** This event is triggered when the GeoMapComponent is fully loaded, and the map is ready for interaction.
+   - **Usage:**
+     ```javascript
+     geo_map.addEventListener('loaded', () => {
+       // Your custom logic here
+     });
+     ```
+   - **Parameters:** None.
 
-## Overview
+## GEO JSON LOADED Event
+   - **Description:** This event is triggered when the GeoJSON data is successfully loaded onto the map.
+   - **Usage:**
+     ```javascript
+     geo_map.addEventListener('GEO JSON LOADED', (event) => {
+       const { coords, bounds, zoom } = event.detail;
+       // Your custom logic here
+     });
+     ```
+   - **Parameters:**
+     - `coords`: The geographical coordinates of the loaded data.
+     - `bounds`: The geographical bounds of the loaded data.
+     - `zoom`: The zoom level of the map.
 
-Modern Web development has gotten far too complex. Frameworks and ornate build systems have obscured the fact that the fundamentals of JS and CSS have gotten not just slightly better but really, really good. 
 
-This project is for people who want to write passionate code and ship it quickly. 
-
-## Instructions
-
-```sh
-npm install
-npm start
-```
-
-This will start a live-server for editing.
-
-## To build
-
-```sh
-npm build
-```
-
-This will
- - generate a file called bundle.min.js in the /dist folder that includes the css and js. 
- - mux and copy over the index.html file to /dist
- - copy /assets folder to /dist
-
-## Change output name
-
-To change the name of the built file create an **.env** file and add the variable 
-OUTPUT_FILENAME to it, like so: 
-
-```
-OUTPUT_FILENAME=new-filename.min.js
-```
-
-## Custom HTML Elements
-
-This project has an example of a custom HTML Element. For more information about custom HTML elements go to https://lnsy.dev/blog/custom-html-components.html
-
-## A simple deployment on GitHub
-
-Click "Use This Template" and create a new project. 
-
-Clone the project, make your changes. 
-
-Run
-
-```sh
-npm build
-```
-
-In Github go to settings/pages in the project and select deploy from branch. 
-
-Link to /dist/bundle.js on the published pages. This will load the CSS and JS. 
-
-## About
-
-https://lnsy.dev 
-
-Hire Me!  
-
+These events provide hooks for developers to perform custom actions or handle specific scenarios when certain conditions are met during the execution of the GeoMapComponent. Developers can attach event listeners to these events and define their own custom logic within the callback functions.
