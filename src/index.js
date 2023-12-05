@@ -1,1 +1,1 @@
-import  "./custom-html-element.js";
+import "./geo-map.js";
