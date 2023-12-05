@@ -247,9 +247,7 @@ class GeoMapComponent extends HTMLElement {
         new CustomEvent('GEO JSON LOADED', 
           {
             detail: {
-              coords,
-              bounds,
-              zoom
+              data
             }
           }
         )
