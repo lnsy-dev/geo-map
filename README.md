@@ -1,5 +1,3 @@
-Certainly! Below is the documentation for the provided JavaScript code, including attributes and events:
-
 ## `GeoMapComponent` Custom Element
 
 ### Attributes:
@@ -143,12 +141,12 @@ Certainly! Below is the documentation for the provided JavaScript code, includin
   });
   ```
 
-#### `loaded`
+#### `GEO MAP LOADED`
 
 - **Description:** Triggered when the GeoMapComponent is fully loaded, and the map is ready for interaction.
 - **Example:**
   ```javascript
-  geo_map.addEventListener('loaded', () => {
+  geo_map.addEventListener('GEO MAP LOADED', () => {
     // Your custom logic here
   });
   ```

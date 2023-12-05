@@ -405,15 +405,7 @@ class GeoMapComponent extends HTMLElement {
     this.style.opacity = 1;
     this.handleZoom(this.zoom);
 
-    /*
-    // This emits an even when the map is loaded. 
-    // you can attach a function to this like
-    //  geo_map.addEventListener('loaded', () => {
-    //    your function here
-    //  });
-    */
-
-    this.dispatchEvent(new Event('loaded'))
+    this.dispatchEvent(new Event('GEO MAP LOADED'))
   }
 }
 
