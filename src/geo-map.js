@@ -182,7 +182,6 @@ class GeoMapComponent extends HTMLElement {
       'bridge-oneway-arrow-blue',
       'bridge-oneway-arrow-white',
       'buildingswithid',
-      'visible-albedo',
       'nearby-roofs',
       'building',
       'council-wide',
@@ -199,6 +198,13 @@ class GeoMapComponent extends HTMLElement {
     });
     return unique_layers;
   }
+
+  /*
+  
+    getGeoJSON
+    fetches Geo JSON
+
+   */
 
   getGeoJSON(geoJsonUrl, property){
     fetch(geoJsonUrl)
@@ -335,9 +341,9 @@ class GeoMapComponent extends HTMLElement {
     const popup = new mapboxgl.Popup({ 
       closeOnClick: false, 
       closeOnMove: true,
-       offset: {
-            'bottom': [-60, -10]
-          },
+      offset: {
+        'bottom': [-60, -10]
+      },
     })
     .setLngLat(geo_map.map.getCenter())
     .setHTML(content)
