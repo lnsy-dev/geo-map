@@ -28,3 +28,21 @@ export const getURLValues = (URL = window.location.href ) =>{
   }
   return options
 }
+
+export function populateTemplate(dataObject, template) {
+  // Get the template content as a string
+  const templateContent = template.innerHTML;
+  
+  // Function to replace placeholders in the template with actual values from the dataObject
+  const replacePlaceholders = (templateString, data) => {
+    return templateString.replace(/\$\{(\w+)\}/g, (match, key) => {
+      return typeof data[key] !== 'undefined' ? data[key] : match;
+    });
+  };
+  
+  // Populate the template
+  const populatedTemplate = replacePlaceholders(templateContent, dataObject);
+  
+  return populatedTemplate;
+}
+

@@ -1,12 +1,21 @@
 import 'https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js';
 import 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js';
-
-import { getURLValues, ready } from './helpers.js';
+import { describeGeoJSON, generateLayerStyle } from './geojson-helpers.js';
+import { populateTemplate, getURLValues, ready } from './helpers.js';
 
 class GeoMapComponent extends HTMLElement {
-  constructor() {
-    super();
-    if(typeof(mapboxgl) === 'undefined'){
+
+  connectedCallback() {
+    ready(() => this.initialize())
+    setTimeout(() => {
+      if(!this.initialized){
+        this.initialize()
+      }
+    }, 3333)
+  }
+
+  async initialize(){
+        if(typeof(mapboxgl) === 'undefined'){
       return console.error('Geo Map component requires Mapbox to work');
     }
     const URLvalues = getURLValues();
@@ -58,212 +67,7 @@ class GeoMapComponent extends HTMLElement {
     if(this.navigation_control === null) this.navigation_control = false;
 
     this.slideshow = this.getAttribute('slideshow');
-  }
 
-  showLayer(layer_id){  
-    const visibility = this.map.getLayoutProperty(layer_id, 'visibility');
-    if (typeof visibility !== 'undefined') {
-      if (visibility === 'none') {
-        this.map.setLayoutProperty(layer_id, 'visibility', 'visible');
-      }
-    }
-  }
-
-  hideLayer(layer_id){
-    var visibility = this.map.getLayoutProperty(layer_id, 'visibility');
-    if (typeof visibility !== 'undefined') {
-      if (visibility !== 'none') {
-        this.map.setLayoutProperty(layer_id, 'visibility', 'none');
-      }
-    }
-  }
-
-  getLayer(layer_id){
-    // Get the layer by ID
-    const layer = this.map.getLayer(layer_id);
-    // Check if the layer exists
-    if (layer) {
-      return layer;
-    } else {
-      return console.error('Layer not found.');
-    }
-  }
-  getLayers(){
-    // These Layers are Default.
-    const default_layers = [
-      "background",
-      "satellite",
-      "tunnel-minor-case",
-      "tunnel-street-case",
-      "tunnel-minor-link-case",
-      "tunnel-secondary-tertiary-case",
-      "tunnel-primary-case",
-      "tunnel-major-link-case",
-      "tunnel-motorway-trunk-case",
-      "tunnel-path",
-      "tunnel-steps",
-      "tunnel-pedestrian",
-      "tunnel-minor",
-      "tunnel-minor-link",
-      "tunnel-major-link",
-      "tunnel-street",
-      "tunnel-street-low",
-      "tunnel-secondary-tertiary",
-      "tunnel-primary",
-      "tunnel-motorway-trunk",
-      "road-path",
-      "road-steps",
-      "road-pedestrian",
-      "road-minor-case",
-      "road-street-case",
-      "road-minor-link-case",
-      "road-secondary-tertiary-case",
-      "road-primary-case",
-      "road-major-link-case",
-      "road-motorway-trunk-case",
-      "road-minor",
-      "road-minor-link",
-      "road-major-link",
-      "road-street",
-      "road-street-low",
-      "road-secondary-tertiary",
-      "road-primary",
-      "road-motorway-trunk",
-      "bridge-path",
-      "bridge-steps",
-      "bridge-pedestrian",
-      "bridge-minor-case",
-      "bridge-street-case",
-      "bridge-minor-link-case",
-      "bridge-secondary-tertiary-case",
-      "bridge-primary-case",
-      "bridge-major-link-case",
-      "bridge-motorway-trunk-case",
-      "bridge-minor",
-      "bridge-minor-link",
-      "bridge-major-link",
-      "bridge-street",
-      "bridge-street-low",
-      "bridge-secondary-tertiary",
-      "bridge-primary",
-      "bridge-motorway-trunk",
-      "bridge-major-link-2-case",
-      "bridge-motorway-trunk-2-case",
-      "bridge-major-link-2",
-      "bridge-motorway-trunk-2",
-      "aerialway",
-      "admin-1-boundary-bg",
-      "admin-0-boundary-bg",
-      "admin-1-boundary",
-      "admin-0-boundary",
-      "admin-0-boundary-disputed",
-      "road-label",
-      "road-intersection",
-      "road-number-shield",
-      "road-exit-shield",
-      "path-pedestrian-label",
-      "ferry-aerialway-label",
-      "waterway-label",
-      "natural-line-label",
-      "natural-point-label",
-      "water-line-label",
-      "water-point-label",
-      "poi-label",
-      "transit-label",
-      "airport-label",
-      "settlement-subdivision-label",
-      "settlement-minor-label",
-      "settlement-major-label",
-      "state-label",
-      "country-label",
-      "continent-label",
-      'tunnel-oneway-arrow-blue',
-      'tunnel-oneway-arrow-white',
-      'road-oneway-arrow-blue',
-      'road-oneway-arrow-white',
-      'bridge-oneway-arrow-blue',
-      'bridge-oneway-arrow-white',
-      'buildingswithid',
-      'nearby-roofs',
-      'building',
-      'council-wide',
-      'council-wide-query',
-      'council-wide-borders'
-    ];
-    const layers = this.map.getStyle().layers;
-    let unique_layers = []
-    // Iterate over the layers and print their IDs
-    layers.forEach(function(layer) {
-      if(default_layers.indexOf(layer.id) < 0){
-        unique_layers.push(layer.id);
-      }
-    });
-    return unique_layers;
-  }
-
-  /*
-  
-    getGeoJSON
-    fetches Geo JSON
-
-   */
-
-  getGeoJSON(geoJsonUrl, property){
-
-    if(this.style.color.length < 1){
-      this.style.color = "#F00";
-    }
-    fetch(geoJsonUrl)
-    .then(function(response) {
-      return response.json();
-    })
-    .then((data) => {
-      // Add the GeoJSON layer to the map
-      this.map.addSource('geojson-data', {
-        type: 'geojson',
-        data: data
-      });
-      // Add a layer to visualize the GeoJSON data
-      this.map.addLayer({
-        id: 'geojson-layer',
-        type: 'circle',
-        source: 'geojson-data',
-        paint: {
-          'circle-radius': {
-            property: property,
-            type: 'exponential',
-            stops: [
-              [0, 2],
-              [10, 20]
-            ]
-          },
-          'circle-color': this.style["color"],
-          'circle-opacity': 0.5
-        }
-      });
-
-      this.showLayer('geojson-layer');
-      this.dispatchEvent(
-        new CustomEvent('GEO JSON LOADED', 
-          {
-            detail: {
-              data
-            }
-          }
-        )
-      );
-
-    })
-    .catch(function(error) {
-      console.log('Error fetching GeoJSON:', error);
-    });
-  }
-
-  connectedCallback() {
-    ready(() => this.initialize())
-  }
-
-  async initialize(){
     const el = document.createElement('map-container')
     this.appendChild(el)
     this.map = await new mapboxgl.Map({
@@ -317,6 +121,10 @@ class GeoMapComponent extends HTMLElement {
     let coords = this.map.getCenter();
     const bounds = this.map.getBounds();
     const zoom = this.map.getZoom();
+    this.setAttribute('latitude', coords.lat);
+    this.setAttribute('longitude', coords.lng);
+    this.setAttribute('zoom', zoom);
+
     this.handleZoom(zoom);
     this.dispatchEvent(
       new CustomEvent('MAP MOVED', 
@@ -353,21 +161,24 @@ class GeoMapComponent extends HTMLElement {
     }
   }
 
-  showPopup(content){
+  /*
+    
+    Show Popup
+
+   */
+  showPopup(content, coordinates){
     const popup = new mapboxgl.Popup({ 
-      closeOnClick: false, 
-      closeOnMove: true,
-      offset: {
-        'bottom': [-60, -10]
-      },
+      closeOnClick: true, 
+      closeOnMove: false,
     })
-    .setLngLat(geo_map.map.getCenter())
+    .setLngLat(coordinates)
     .setHTML(content)
     .addTo(this.map)
   }
 
   mapLoaded(){
 
+    this.geocoder = this.getAttribute('geocoder');
     if(this.geocoder !== null){   
       if(typeof(MapboxGeocoder) === 'undefined'){
         this.innerHTML = `If you would like to use the geocoder element, 
@@ -391,22 +202,232 @@ class GeoMapComponent extends HTMLElement {
       this.handleMoveEnd(e)
     });
 
-    this.map.on('click', (e) => {
-      this.map.flyTo({center:e.lngLat, zoom:18.5});
-    });
-
-    const geo_json_component = this.querySelector('geo-json');
-    if(geo_json_component !== null){
-      const src = geo_json_component.getAttribute('src');
-      const variable = geo_json_component.getAttribute('variable');
-      this.getGeoJSON(src, variable);
-    }
+    const geo_json_components = this.querySelectorAll('geo-json');
+    [...geo_json_components].forEach((geo_json_component) => {
+      this.getGeoJSON(geo_json_component);
+    })
 
     this.style.opacity = 1;
     this.handleZoom(this.zoom);
-    this.dispatchEvent(new Event('GEO MAP LOADED'))
+    this.dispatchEvent(new Event('GEO MAP LOADED'));
+
   }
+
+  // Layer Tools
+  showLayer(layer_id){  
+    const visibility = this.map.getLayoutProperty(layer_id, 'visibility');
+    if (typeof visibility !== 'undefined') {
+      if (visibility === 'none') {
+        this.map.setLayoutProperty(layer_id, 'visibility', 'visible');
+      }
+    }
+  }
+
+  hideLayer(layer_id){
+    var visibility = this.map.getLayoutProperty(layer_id, 'visibility');
+    if (typeof visibility !== 'undefined') {
+      if (visibility !== 'none') {
+        this.map.setLayoutProperty(layer_id, 'visibility', 'none');
+      }
+    }
+  }
+
+  getLayer(layer_id){
+    // Get the layer by ID
+    const layer = this.map.getLayer(layer_id);
+    // Check if the layer exists
+    if (layer) {
+      return layer;
+    } else {
+      return console.error('Layer not found.');
+    }
+  }
+  getLayers(){
+    // These Layers are Default.
+    const layers = this.map.getStyle().layers;
+    let unique_layers = []
+    // Iterate over the layers and print their IDs
+    layers.forEach(function(layer) {
+      if(default_layers.indexOf(layer.id) < 0){
+        unique_layers.push(layer.id);
+      }
+    });
+    return unique_layers;
+  }
+
+  /*
+  
+    getGeoJSON
+    fetches Geo JSON
+
+   */
+
+  getGeoJSON(geo_json_component){
+    const geoJsonUrl = geo_json_component.getAttribute('src');
+    const property = geo_json_component.getAttribute('variable');
+    const template = geo_json_component.querySelector('template');
+
+    if(this.style.color.length < 1){
+      this.style.color = "#F00";
+    }
+    fetch(geoJsonUrl)
+    .then(response => response.json())
+    .then((data) => {
+      // Add the GeoJSON layer to the map
+      this.map.addSource('geojson-data', {
+        type: 'geojson',
+        data: data
+      });
+      // Add a layer to visualize the GeoJSON data
+      const geoJSONAnalysis = describeGeoJSON(data);
+      const layerStyles = generateLayerStyle(geoJSONAnalysis);
+      layerStyles.forEach((style) => {
+        this.map.addLayer(style);
+        this.showLayer(style.id);
+        // Add click event listener to the map
+        this.map.on('click', style.id, (e) => {
+          if (e.features.length > 0) {
+            const feature = e.features[0];
+            console.log(feature.properties);
+            this.map.flyTo({center:feature.geometry.coordinates});
+            let popup_content = JSON.stringify(feature.properties);
+            if(template !== null){
+              popup_content = populateTemplate(feature.properties, template);
+            }
+            // Use showPopup method to show the feature's properties
+            this.showPopup(popup_content, feature.geometry.coordinates);
+          }
+        });
+
+        // Change the cursor to a pointer when the it enters a feature in the 'geojson-layer'.
+        this.map.on('mouseenter', style.id, () => {
+          this.map.getCanvas().style.cursor = 'pointer';
+        });
+
+        // Change it back to a pointer when it leaves.
+        this.map.on('mouseleave', style.id, () => {
+          this.map.getCanvas().style.cursor = '';
+        });
+      });
+
+
+      this.dispatchEvent(
+        new CustomEvent('GEO JSON LOADED', 
+          {
+            detail: {
+              data
+            }
+          }
+        )
+      )
+    })
+    .catch(error => {
+      console.log('Error fetching GeoJSON:', error);
+    });
+  }
+
 }
 
-customElements.define('geo-map', GeoMapComponent)
+customElements.define('geo-map', GeoMapComponent);
 
+
+const default_layers = [
+  "background",
+  "satellite",
+  "tunnel-minor-case",
+  "tunnel-street-case",
+  "tunnel-minor-link-case",
+  "tunnel-secondary-tertiary-case",
+  "tunnel-primary-case",
+  "tunnel-major-link-case",
+  "tunnel-motorway-trunk-case",
+  "tunnel-path",
+  "tunnel-steps",
+  "tunnel-pedestrian",
+  "tunnel-minor",
+  "tunnel-minor-link",
+  "tunnel-major-link",
+  "tunnel-street",
+  "tunnel-street-low",
+  "tunnel-secondary-tertiary",
+  "tunnel-primary",
+  "tunnel-motorway-trunk",
+  "road-path",
+  "road-steps",
+  "road-pedestrian",
+  "road-minor-case",
+  "road-street-case",
+  "road-minor-link-case",
+  "road-secondary-tertiary-case",
+  "road-primary-case",
+  "road-major-link-case",
+  "road-motorway-trunk-case",
+  "road-minor",
+  "road-minor-link",
+  "road-major-link",
+  "road-street",
+  "road-street-low",
+  "road-secondary-tertiary",
+  "road-primary",
+  "road-motorway-trunk",
+  "bridge-path",
+  "bridge-steps",
+  "bridge-pedestrian",
+  "bridge-minor-case",
+  "bridge-street-case",
+  "bridge-minor-link-case",
+  "bridge-secondary-tertiary-case",
+  "bridge-primary-case",
+  "bridge-major-link-case",
+  "bridge-motorway-trunk-case",
+  "bridge-minor",
+  "bridge-minor-link",
+  "bridge-major-link",
+  "bridge-street",
+  "bridge-street-low",
+  "bridge-secondary-tertiary",
+  "bridge-primary",
+  "bridge-motorway-trunk",
+  "bridge-major-link-2-case",
+  "bridge-motorway-trunk-2-case",
+  "bridge-major-link-2",
+  "bridge-motorway-trunk-2",
+  "aerialway",
+  "admin-1-boundary-bg",
+  "admin-0-boundary-bg",
+  "admin-1-boundary",
+  "admin-0-boundary",
+  "admin-0-boundary-disputed",
+  "road-label",
+  "road-intersection",
+  "road-number-shield",
+  "road-exit-shield",
+  "path-pedestrian-label",
+  "ferry-aerialway-label",
+  "waterway-label",
+  "natural-line-label",
+  "natural-point-label",
+  "water-line-label",
+  "water-point-label",
+  "poi-label",
+  "transit-label",
+  "airport-label",
+  "settlement-subdivision-label",
+  "settlement-minor-label",
+  "settlement-major-label",
+  "state-label",
+  "country-label",
+  "continent-label",
+  'tunnel-oneway-arrow-blue',
+  'tunnel-oneway-arrow-white',
+  'road-oneway-arrow-blue',
+  'road-oneway-arrow-white',
+  'bridge-oneway-arrow-blue',
+  'bridge-oneway-arrow-white',
+  'buildingswithid',
+  'nearby-roofs',
+  'building',
+  'council-wide',
+  'council-wide-query',
+  'council-wide-borders'
+];
