@@ -1,3 +1,9 @@
+# geo-map
+
+
+geo-map is a user-friendly component that serves as a wrapper for the Mapbox API, making it easy to style and embed geo-json components on your website or application. With geo-map, you can quickly and efficiently integrate interactive maps into your project without needing to have advanced knowledge of the Mapbox API. Simply include the geo-map component in your project and start visualizing geographical data in a visually appealing and interactive way.
+
+
 ## The Basics
 
 
