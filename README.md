@@ -227,3 +227,40 @@ This Node.js script converts a shapefile to GeoJSON format using the `ogr2ogr` c
 - Make sure the shapefile folder contains only one shapefile with a .shp extension.
 - The script assumes the `ogr2ogr` command line tool is installed globally on your system.
 Feel free to customize and modify the script to suit your specific requirements.
+
+---
+# GeoJSON Custom Element
+The geoJSON custome element allows you to embed GeoJSON in your map. 
+
+## Features
+- Supports required attributes: `src`
+- Optional attributes: `scale`, `color`, `opacity`
+- Uses JavaScript style templates for rendering geojson data
+## Usage
+1. Include the custom element in your `<geo-map>`` component:
+   ```html
+   <geo-json src="path/to/geojson/file.json"></geo-json>
+   ```
+2. Add optional attributes as needed:
+   ```html
+   <geo-json src="path/to/geojson/file.json" scale="1.5" color="#00F" opacity="0.5"></geo-json>
+   ```
+## Attributes
+- `src` (required): Path to the GeoJSON file.
+- `scale` (optional, default: 1): Scale factor for the visualization.
+- `color` (optional, default: "#F00"): Color used for rendering.
+- `opacity` (optional, default: 1): Opacity value for the visualization.
+## Template Example
+To customize the visualization, use a template similar to the following example:
+```html
+<template>
+  <div class="earthquake">
+    <h1>${mag}</h1>
+    <h2>Magnitude</h2>
+    <p>${place}</p>
+    <friendly-time>${updated}</friendly-time>
+  </div>
+</template>
+```
+## Note
+Make sure to provide the required `src` attribute when using the `geo-json` custom element.
