@@ -1,4 +1,5 @@
 export function describeGeoJSON(geoJSON){
+  console.log(geoJSON);
   const geometryTypes = new Set();
   const propertyRanges = {};
 
@@ -25,6 +26,8 @@ export function describeGeoJSON(geoJSON){
     }
   });
 
+  console.log(propertyRanges, geometryTypes);
+
   return { propertyRanges, geometryTypes }
 }
 
@@ -36,7 +39,7 @@ function checkString(string) {
 export function generateLayerStyle(geoJSONAnalysis, style, layerID) {
   const { propertyRanges, geometryTypes } = geoJSONAnalysis;
   const layerStyles = [];
-  
+
 
   geometryTypes.forEach((type) => {
     let layerStyle = {
@@ -47,7 +50,6 @@ export function generateLayerStyle(geoJSONAnalysis, style, layerID) {
     };
 
     if(checkString(style.scale)){
-      console.log("Scale is number");
       style.scale = style.scale * 1;
     } else {
       style.scale = [

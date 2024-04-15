@@ -287,7 +287,7 @@ class GeoMapComponent extends HTMLElement {
           if (e.features.length > 0) {
             const feature = e.features[0];
             this.map.flyTo({center:feature.geometry.coordinates});
-            let popup_content = JSON.stringify(feature.properties);
+            let popup_content = `<h2>No template defined.</h2><p>${JSON.stringify(feature.properties)}</p>`;
             if(geo_json_component.template !== null){
               popup_content = populateTemplate(feature.properties, geo_json_component.template);
             }
