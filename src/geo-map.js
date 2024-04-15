@@ -177,7 +177,6 @@ class GeoMapComponent extends HTMLElement {
   }
 
   mapLoaded(){
-
     this.geocoder = this.getAttribute('geocoder');
     if(this.geocoder !== null){   
       if(typeof(MapboxGeocoder) === 'undefined'){
@@ -264,23 +263,30 @@ class GeoMapComponent extends HTMLElement {
 
   getGeoJSON(geo_json_component){
     const geoJsonUrl = geo_json_component.getAttribute('src');
-    const property = geo_json_component.getAttribute('variable');
+    const scale = geo_json_component.getAttribute('scale');
+    const color_property = geo_json_component.getAttribute('color-variable');
     const template = geo_json_component.querySelector('template');
-
-    if(this.style.color.length < 1){
-      this.style.color = "#F00";
+    let color = geo_json_component.getAttribute('color');
+    if(color === null){
+      color = "#F00";
     }
+
+    let opacity = geo_json_component.getAttribute('opacity');
+    if(opacity === null){
+      opacity = 1
+    }
+
     fetch(geoJsonUrl)
     .then(response => response.json())
-    .then((data) => {
+    .then(async (data) => {
       // Add the GeoJSON layer to the map
       this.map.addSource('geojson-data', {
         type: 'geojson',
         data: data
       });
       // Add a layer to visualize the GeoJSON data
-      const geoJSONAnalysis = describeGeoJSON(data);
-      const layerStyles = generateLayerStyle(geoJSONAnalysis);
+      const geoJSONAnalysis = await describeGeoJSON(data);
+      const layerStyles = generateLayerStyle(geoJSONAnalysis, {color, scale, opacity});
       layerStyles.forEach((style) => {
         this.map.addLayer(style);
         this.showLayer(style.id);
@@ -288,7 +294,6 @@ class GeoMapComponent extends HTMLElement {
         this.map.on('click', style.id, (e) => {
           if (e.features.length > 0) {
             const feature = e.features[0];
-            console.log(feature.properties);
             this.map.flyTo({center:feature.geometry.coordinates});
             let popup_content = JSON.stringify(feature.properties);
             if(template !== null){

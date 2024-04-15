@@ -29,8 +29,12 @@ export function describeGeoJSON(geoJSON){
 }
 
 
+function checkString(string) {
+    return /^[0-9]*$/.test(string);
+}
 
-export function generateLayerStyle(geoJSONAnalysis) {
+export function generateLayerStyle(geoJSONAnalysis, style) {
+  console.log(geoJSONAnalysis, style);
   const { propertyRanges, geometryTypes } = geoJSONAnalysis;
   const layerStyles = [];
 
@@ -42,28 +46,48 @@ export function generateLayerStyle(geoJSONAnalysis) {
       paint: {},
     };
 
+    if(checkString(style.scale)){
+      console.log("Scale is number");
+      style.scale = style.scale * 1;
+    } else {
+      style.scale = [
+
+      "interpolate",
+
+      ["linear"],
+
+      ["get", style.scale],
+
+      0, 5,
+
+      10, 50
+
+      ]
+    }
+
     // Define paint properties based on geometry type
     switch (type) {
       case 'Point':
       case 'MultiPoint':
         layerStyle.paint = {
-          'circle-radius': 5, // Default, could be dynamic based on a property
-          'circle-color': '#007cbf', // Default, could be dynamic based on a property
-          'circle-opacity': 0.8,
+          'circle-radius': style.scale, // Default, could be dynamic based on a property
+          'circle-color': style.color, // Default, could be dynamic based on a property
+          'circle-opacity': style.opacity * 1,
         };
         break;
       case 'LineString':
       case 'MultiLineString':
         layerStyle.paint = {
           'line-width': 2, // Default, could be dynamic based on a property
-          'line-color': '#007cbf', // Default, could be dynamic based on a property
+          'line-color': style.color, // Default, could be dynamic based on a property
+          'line-opacity': style.opacity * 1
         };
         break;
       case 'Polygon':
       case 'MultiPolygon':
         layerStyle.paint = {
-          'fill-color': '#007cbf', // Default, could be dynamic based on a property
-          'fill-opacity': 0.5,
+          'fill-color': style.color, // Default, could be dynamic based on a property
+          'fill-opacity': style.opacity * 1,
         };
         break;
       // Add other cases as needed
