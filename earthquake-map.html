@@ -21,6 +21,15 @@
     body {
       margin: 0;
     }
+
+    geo-map {
+      color: red;
+    }
+
+    .earthquake {
+      text-align:center;
+      color: black;
+    }
   </style>
 </head>
 <body>
@@ -31,7 +40,7 @@
   styleurl=mapbox://styles/reflective-earth/cl60yqkiw002o16msz3oc2bxb
   latitude= 33.86716840617632
   longitude=-118.12701323464881
-  zoom=9
+  zoom=4
   bearing=0
   pitch=45
   navigation
@@ -39,8 +48,30 @@
   geocoder=true
   search-bounds="-118.48176410291592, 33.66337686568919, -117.58037748630301, 34.41894361494393"
 >
-<geo-json src="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson" variable="mag"></geo-json>
-</geo-map>
+<geo-json 
+  src="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson" 
+  scale="mag"
+  color="pink"
+  opacity="1"
+  scale="10"
+  >
+<template>
+  <div class="earthquake">
+    <h1>${mag}</h1>
+    <h2>Magnitude</h2>
+    <p>${place}</p>
+    <friendly-time>${updated}</friendly-time>
+  </div>
+</template>
+
+</geo-json>
+
+<!-- <geo-json
+  src="/ca_fault_lines.geojson"
+>
+
+</geo-json>
+ --></geo-map>
 
 </body>
 </html>

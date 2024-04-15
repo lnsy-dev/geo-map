@@ -2,6 +2,7 @@ import 'https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js';
 import 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js';
 import { describeGeoJSON, generateLayerStyle } from './geojson-helpers.js';
 import { populateTemplate, getURLValues, ready } from './helpers.js';
+import "./geo-json-component.js";
 
 class GeoMapComponent extends HTMLElement {
 
@@ -262,42 +263,33 @@ class GeoMapComponent extends HTMLElement {
    */
 
   getGeoJSON(geo_json_component){
-    const geoJsonUrl = geo_json_component.getAttribute('src');
-    const scale = geo_json_component.getAttribute('scale');
-    const color_property = geo_json_component.getAttribute('color-variable');
-    const template = geo_json_component.querySelector('template');
-    let color = geo_json_component.getAttribute('color');
-    if(color === null){
-      color = "#F00";
-    }
 
-    let opacity = geo_json_component.getAttribute('opacity');
-    if(opacity === null){
-      opacity = 1
-    }
-
-    fetch(geoJsonUrl)
+    fetch(geo_json_component.attrs.src)
     .then(response => response.json())
     .then(async (data) => {
+
+      const layer_id = crypto.randomUUID()
       // Add the GeoJSON layer to the map
-      this.map.addSource('geojson-data', {
+      this.map.addSource(layer_id, {
         type: 'geojson',
         data: data
       });
       // Add a layer to visualize the GeoJSON data
       const geoJSONAnalysis = await describeGeoJSON(data);
-      const layerStyles = generateLayerStyle(geoJSONAnalysis, {color, scale, opacity});
+      const layerStyles = generateLayerStyle(geoJSONAnalysis, geo_json_component.attrs, layer_id);
+      console.log(layerStyles);
       layerStyles.forEach((style) => {
+        console.log(style);
         this.map.addLayer(style);
-        this.showLayer(style.id);
+        this.showLayer(layer_id);
         // Add click event listener to the map
         this.map.on('click', style.id, (e) => {
           if (e.features.length > 0) {
             const feature = e.features[0];
             this.map.flyTo({center:feature.geometry.coordinates});
             let popup_content = JSON.stringify(feature.properties);
-            if(template !== null){
-              popup_content = populateTemplate(feature.properties, template);
+            if(geo_json_component.template !== null){
+              popup_content = populateTemplate(feature.properties, geo_json_component.template);
             }
             // Use showPopup method to show the feature's properties
             this.showPopup(popup_content, feature.geometry.coordinates);

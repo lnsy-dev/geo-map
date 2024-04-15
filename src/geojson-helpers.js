@@ -33,16 +33,16 @@ function checkString(string) {
     return /^[0-9]*$/.test(string);
 }
 
-export function generateLayerStyle(geoJSONAnalysis, style) {
-  console.log(geoJSONAnalysis, style);
+export function generateLayerStyle(geoJSONAnalysis, style, layerID) {
   const { propertyRanges, geometryTypes } = geoJSONAnalysis;
   const layerStyles = [];
+  
 
   geometryTypes.forEach((type) => {
     let layerStyle = {
       id: `${type}-layer`,
       type: getLayerType(type),
-      source: 'geojson-data',
+      source: layerID,
       paint: {},
     };
 
@@ -51,17 +51,11 @@ export function generateLayerStyle(geoJSONAnalysis, style) {
       style.scale = style.scale * 1;
     } else {
       style.scale = [
-
-      "interpolate",
-
-      ["linear"],
-
-      ["get", style.scale],
-
-      0, 5,
-
-      10, 50
-
+        "interpolate",
+        ["linear"],
+        ["get", style.scale],
+        propertyRanges[style.scale].min, propertyRanges[style.scale].max,
+        1, 10
       ]
     }
 
