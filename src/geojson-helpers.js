@@ -43,7 +43,7 @@ export function generateLayerStyle(geoJSONAnalysis, style, layerID) {
 
   geometryTypes.forEach((type) => {
     let layerStyle = {
-      id: `${type}-layer`,
+      id: `${layerID}-layer`,
       type: getLayerType(type),
       source: layerID,
       paint: {},

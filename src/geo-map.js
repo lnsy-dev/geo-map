@@ -268,7 +268,7 @@ class GeoMapComponent extends HTMLElement {
     .then(response => response.json())
     .then(async (data) => {
 
-      const layer_id = crypto.randomUUID()
+      const layer_id = geo_json_component.attrs.id
       // Add the GeoJSON layer to the map
       this.map.addSource(layer_id, {
         type: 'geojson',
@@ -277,9 +277,7 @@ class GeoMapComponent extends HTMLElement {
       // Add a layer to visualize the GeoJSON data
       const geoJSONAnalysis = await describeGeoJSON(data);
       const layerStyles = generateLayerStyle(geoJSONAnalysis, geo_json_component.attrs, layer_id);
-      console.log(layerStyles);
       layerStyles.forEach((style) => {
-        console.log(style);
         this.map.addLayer(style);
         this.showLayer(layer_id);
         // Add click event listener to the map

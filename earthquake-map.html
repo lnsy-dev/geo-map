@@ -40,9 +40,9 @@
   styleurl=mapbox://styles/reflective-earth/cl60yqkiw002o16msz3oc2bxb
   latitude= 33.86716840617632
   longitude=-118.12701323464881
-  zoom=4
+  zoom=1
   bearing=0
-  pitch=45
+  pitch=0
   navigation
   geolocate
   geocoder=true
@@ -54,6 +54,7 @@
   color="red"
   opacity="1"
   scale="10"
+  id="earthquakes"
   >
 <template>
   <div class="earthquake">
@@ -63,6 +64,16 @@
     <friendly-time>${updated}</friendly-time>
   </div>
 </template>
+
+<script>
+  let radius = 5;
+  setInterval(() => {
+    geo_map.map.setPaintProperty('earthquakes-layer', 'circle-radius', radius);
+    radius = ++radius % 30
+  }, 50);
+
+
+</script>
 
 </geo-json>
 <!-- 

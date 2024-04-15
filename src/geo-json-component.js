@@ -21,6 +21,10 @@ class GeoJSON extends HTMLElement {
       this.attrs.opacity = 1
     }
 
+    if(this.attrs.id === null){
+      this.attrs.id = crypto.randomUUID()
+    }
+
     this.template = document.querySelector('template');
   }
 
