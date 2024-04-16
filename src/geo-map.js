@@ -3,6 +3,7 @@ import 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/ma
 import { describeGeoJSON, generateLayerStyle } from './geojson-helpers.js';
 import { populateTemplate, getURLValues, ready } from './helpers.js';
 import "./geo-json-component.js";
+import "./map-pin.js";
 
 class GeoMapComponent extends HTMLElement {
 
@@ -277,7 +278,9 @@ class GeoMapComponent extends HTMLElement {
       // Add a layer to visualize the GeoJSON data
       const geoJSONAnalysis = await describeGeoJSON(data);
       const layerStyles = generateLayerStyle(geoJSONAnalysis, geo_json_component.attrs, layer_id);
+      console.log(layerStyles);
       layerStyles.forEach((style) => {
+        console.log(style);
         this.map.addLayer(style);
         this.showLayer(layer_id);
         // Add click event listener to the map

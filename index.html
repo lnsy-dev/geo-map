@@ -3,43 +3,128 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Vanilla JS / CSS boilerplate for generating JS and CSS libraries in plain CSS, JS, and HTML. Created by LNSY.">
-  <meta name="keywords" content="Vanilla JS, CSS, boilerplate, library, LNSY">
+  <meta name="description" content="MAP.GARDEN">
+  <meta name="keywords" content="Mapping, environmental">
   <meta name="author" content="LNSY">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph meta tags for better sharing on social media -->
-  <meta property="og:title" content="Vanilla JS / CSS boilerplate">
-  <meta property="og:description" content="Vanilla JS / CSS boilerplate for generating JS and CSS libraries in plain CSS, JS, and HTML. Created by LNSY.">
-  <meta property="og:image" content="./assets/splash.jpg">
-  <meta property="og:url" content="https://example.com"> <!-- Replace with your actual URL -->
+  <meta property="og:title" content="MAP.GARDEN: environmental software">
+  <meta property="og:description" content="MAP.GARDEN: environmental software">
+  <meta property="og:url" content="https://map.garden"> <!-- Replace with your actual URL -->
 
-  <title>geo map</title>
+  <link rel="stylesheet" href="https://use.typekit.net/zep2ala.css">
+  <title>MAP.GARDEN</title>
+  <script src="https://lnsy-dev.github.io/simple-github-icon/github-icon.min.js"></script>
+
   <link rel="stylesheet" type="text/css" href="./styles/index.css">
   <script src="./src/index.js" type="module"></script>
+  <link rel="stylesheet" type="text/css" href="https://lnsy-dev.github.io/simple-modal/simple-modal.css">
+  <script type="module" src="https://lnsy-dev.github.io/simple-modal/simple-modal.js"></script>
   <style type="text/css"> 
+    :root {
+      --geo-map-background-color: #FFFFFF;
+      --geo-map-foreground-color: #000000;
+      --geo-map-border-color: #2d2d2d;
+      --geo-map-secondary-background-color: #000000;
+      --geo-map-secondary-foreground-color: #ff00ff;
+      --column-footer-height: 1em;
+      --column-footer-offset: 1em;
+      --column-header-size: 1em;
+      --column-text-color: black;
+      --column-background-color: transparent;
+    }
+
+
     body {
       margin: 0;
+      font-family: "transmute", sans-serif;
+font-weight: 300;
+font-style: normal;
     }
+
+    span.close-button {
+      background-color: transparent;
+      color: var(--geo-map-secondary-foreground-color);
+    }
+
+
+    simple-modal {
+      padding: 1em;
+      background-color: var(--geo-map-background-color);
+      color: var(--geo-map-foreground-color);
+    }
+
+    h1,h2,h3,h4 {
+      color: var(--geo-map-foreground-color);
+font-family: "bungee", sans-serif;
+font-weight: 700;
+font-style: normal;      text-transform: uppercase;
+    }
+
+    simple-modal header, simple-modal footer {
+      background-color: transparent;
+    }
+
+    simple-show-modal {
+      background-color: var(--geo-map-background-color);
+      color: var(--geo-map-foreground-color);
+      font-family: "transmute", sans-serif;
+      font-weight: 700;
+      font-style: normal;
+
+    }
+
   </style>
 </head>
 <body>
 
+  <github-icon 
+    href="https://github.com/lnsy-dev/geo-map"
+    style="
+      width: 2em;
+      height: auto;
+      position: fixed;
+      z-index: 9000;
+      left: 1em;
+      bottom: 2em;
+    "
+  ></github-icon>
+
+
 <geo-map id="geo_map"
   id="geo_map"
-  accesstoken=pk.eyJ1IjoicmVmbGVjdGl2ZS1lYXJ0aCIsImEiOiJja2VvZHd2YjgwMGJnMnhtcmVsOXRwMWR3In0.KgPtf7QYrYp5g0G2yrvGaA
-  styleurl=mapbox://styles/reflective-earth/cl60yqkiw002o16msz3oc2bxb
+  accesstoken=pk.eyJ1IjoibGluZHNleW15c3NlIiwiYSI6ImNqOGNlYjMzbDA5am8zMmxid2oyc3hrc2cifQ.hK6NXKEl7bK7va2pRtY0Yw
+  styleurl=mapbox://styles/lindseymysse/ckuybrkna8p3o18mvlg7ks6bf
   latitude= 33.86716840617632
   longitude=-118.12701323464881
   zoom=9
   bearing=0
   pitch=45
-  navigation
-  geolocate
-  geocoder=true
   search-bounds="-118.48176410291592, 33.66337686568919, -117.58037748630301, 34.41894361494393"
 >
 </geo-map>
+
+<simple-modal>
+  <header>
+  <h1>Map.Garden</h1></header>
+  
+<p>Welcome to map.garden, your go-to consulting firm for all your environmental mapping needs. Our core software, geo-map, is a user-friendly tool that simplifies the process of integrating interactive maps into your projects. </p>
+
+<p>With geo-map, you can easily style and embed geo-json components on your website or application without the need for advanced knowledge of the Mapbox API. Our software allows you to visualize geographical data in a visually appealing and interactive way, making it the perfect solution for environmental projects.</p>
+
+<p>But that's not all - our Geo map framework is SOC2 compliant, up to modern web standards, and completely extensible, ensuring that you have access to the latest technology and security features.</p>
+
+<p>Don't waste time struggling with complicated mapping software - let map.garden take care of all your mapping needs. Contact us today to learn more about how we can help you create stunning maps for your environmental projects.</p>
+
+  <footer><a href="mailto: lnsy.dev@proton.me">Talk to us</a></footer>
+
+</simple-modal>
+
+  <simple-show-modal>MAP.GARDEN</simple-show-modal>
+
+
+
 
 </body>
 </html>
