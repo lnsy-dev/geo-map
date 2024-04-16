@@ -21,13 +21,14 @@
   <script src="./src/index.js" type="module"></script>
   <link rel="stylesheet" type="text/css" href="https://lnsy-dev.github.io/simple-modal/simple-modal.css">
   <script type="module" src="https://lnsy-dev.github.io/simple-modal/simple-modal.js"></script>
+  <script type="module" src="https://lnsy-dev.github.io/fit-text-component/fit-text-component.js"></script>
   <style type="text/css"> 
     :root {
-      --geo-map-background-color: #FFFFFF;
-      --geo-map-foreground-color: #000000;
+      --geo-map-background-color: #a16d5e;
+      --geo-map-foreground-color: #93b253;
       --geo-map-border-color: #2d2d2d;
-      --geo-map-secondary-background-color: #000000;
-      --geo-map-secondary-foreground-color: #ff00ff;
+      --geo-map-secondary-background-color: #dc937f;
+      --geo-map-secondary-foreground-color: #bff2cb;
       --column-footer-height: 1em;
       --column-footer-offset: 1em;
       --column-header-size: 1em;
@@ -38,7 +39,7 @@
 
     body {
       margin: 0;
-      font-family: "transmute", sans-serif;
+font-family: neusa-next-std, sans-serif;
 font-weight: 300;
 font-style: normal;
     }
@@ -55,11 +56,17 @@ font-style: normal;
       color: var(--geo-map-foreground-color);
     }
 
-    h1,h2,h3,h4 {
+    fit-text {
       color: var(--geo-map-foreground-color);
-font-family: "bungee", sans-serif;
-font-weight: 700;
-font-style: normal;      text-transform: uppercase;
+      font-family: macula-line, sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      text-transform: uppercase;
+      margin: auto;
+      text-align: center;
+      display: block;
+      width: 100% !important;
+
     }
 
     simple-modal header, simple-modal footer {
@@ -73,6 +80,17 @@ font-style: normal;      text-transform: uppercase;
       font-weight: 700;
       font-style: normal;
 
+    }
+
+    main {
+      text-align: justify;
+      margin: 0 2em;
+    }
+
+    header {
+      display: block;
+      width: 100%;
+      text-align: center;
     }
 
   </style>
@@ -107,8 +125,9 @@ font-style: normal;      text-transform: uppercase;
 
 <simple-modal>
   <header>
-  <h1>Map.Garden</h1></header>
-  
+  <fit-text compressor="0.22">Map.Garden</fit-text>
+  </header>
+  <main>
 <p>Welcome to map.garden, your go-to consulting firm for all your environmental mapping needs. Our core software, geo-map, is a user-friendly tool that simplifies the process of integrating interactive maps into your projects. </p>
 
 <p>With geo-map, you can easily style and embed geo-json components on your website or application without the need for advanced knowledge of the Mapbox API. Our software allows you to visualize geographical data in a visually appealing and interactive way, making it the perfect solution for environmental projects.</p>
@@ -116,6 +135,8 @@ font-style: normal;      text-transform: uppercase;
 <p>But that's not all - our Geo map framework is SOC2 compliant, up to modern web standards, and completely extensible, ensuring that you have access to the latest technology and security features.</p>
 
 <p>Don't waste time struggling with complicated mapping software - let map.garden take care of all your mapping needs. Contact us today to learn more about how we can help you create stunning maps for your environmental projects.</p>
+
+</main>
 
   <footer><a href="mailto: lnsy.dev@proton.me">Talk to us</a></footer>
 
