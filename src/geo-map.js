@@ -3,7 +3,8 @@ import 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/ma
 import { describeGeoJSON, generateLayerStyle } from './geojson-helpers.js';
 import { populateTemplate, getURLValues, ready } from './helpers.js';
 import "./geo-json-component.js";
-import "./map-pin.js";
+import "./pin.js";
+import "./sidebar.js";
 
 class GeoMapComponent extends HTMLElement {
 

@@ -68,7 +68,6 @@ class MapPin extends HTMLElement {
   }
 
   handleClick(){
-    console.log(this);
     const sidebar = this.parent.querySelector('map-sidebar');
     if(sidebar === null){
       const markerHeight = 30;
@@ -96,6 +95,8 @@ class MapPin extends HTMLElement {
       .setHTML(this.innerHTML)
       .setMaxWidth("300px")
       .addTo(this.map);
+    } else {
+      sidebar.updateContent(this.innerHTML);
     }
 
   }

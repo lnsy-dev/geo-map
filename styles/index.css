@@ -48,3 +48,13 @@ geo-map map-container {
 map-pin {
   display: none;
 }
+
+map-sidebar {
+  position: absolute;
+  display:flex;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 20em;
+  background-color: var(--geo-map-background-color);
+}
