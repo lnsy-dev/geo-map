@@ -24,8 +24,8 @@
   <script type="module" src="https://lnsy-dev.github.io/fit-text-component/fit-text-component.js"></script>
   <style type="text/css"> 
     :root {
-      --geo-map-background-color: #a16d5e;
-      --geo-map-foreground-color: #93b253;
+      --geo-map-background-color:#93b253 ;
+      --geo-map-foreground-color: #a16d5e;
       --geo-map-border-color: #2d2d2d;
       --geo-map-secondary-background-color: #dc937f;
       --geo-map-secondary-foreground-color: #bff2cb;
@@ -54,10 +54,18 @@ font-style: normal;
       padding: 1em;
       background-color: var(--geo-map-background-color);
       color: var(--geo-map-foreground-color);
+      overflow: scroll;
+    }
+
+    .shadow {
+      box-shadow: 6px 5px 5px 1px rgba(0,0,0,0.23);
+    -webkit-box-shadow: 6px 5px 5px 1px rgba(0,0,0,0.23);
+    -moz-box-shadow: 6px 5px 5px 1px rgba(0,0,0,0.23);
+
     }
 
     fit-text {
-      color: var(--geo-map-foreground-color);
+      color: var(--geo-map-secondary-foreground-color);
       font-family: macula-line, sans-serif;
       font-weight: 400;
       font-style: normal;
@@ -69,6 +77,8 @@ font-style: normal;
 
     }
 
+
+
     simple-modal header, simple-modal footer {
       background-color: transparent;
     }
@@ -79,6 +89,12 @@ font-style: normal;
       font-family: "transmute", sans-serif;
       font-weight: 700;
       font-style: normal;
+    }
+
+    simple-show-modal:active {
+      box-shadow: none;
+    -webkit-box-shadow:none;
+    -moz-box-shadow:none;
 
     }
 
@@ -99,6 +115,7 @@ font-style: normal;
 
   <github-icon 
     href="https://github.com/lnsy-dev/geo-map"
+    light
     style="
       width: 2em;
       height: auto;
@@ -123,17 +140,20 @@ font-style: normal;
 >
 </geo-map>
 
-<simple-modal>
+<simple-modal class="shadow">
   <header>
   <fit-text compressor="0.22">Map.Garden</fit-text>
   </header>
   <main>
 <p>Welcome to map.garden, your go-to consulting firm for all your environmental mapping needs. Our core software, geo-map, is a user-friendly tool that simplifies the process of integrating interactive maps into your projects. </p>
 
+<h2>Modern HTML Standards</h2>
 <p>With geo-map, you can easily style and embed geo-json components on your website or application without the need for advanced knowledge of the Mapbox API. Our software allows you to visualize geographical data in a visually appealing and interactive way, making it the perfect solution for environmental projects.</p>
 
+<h2>Secure and ready for enterprise</h2>
 <p>But that's not all - our Geo map framework is SOC2 compliant, up to modern web standards, and completely extensible, ensuring that you have access to the latest technology and security features.</p>
 
+<h2>Hard won simplicity</h2>
 <p>Don't waste time struggling with complicated mapping software - let map.garden take care of all your mapping needs. Contact us today to learn more about how we can help you create stunning maps for your environmental projects.</p>
 
 </main>
@@ -142,7 +162,7 @@ font-style: normal;
 
 </simple-modal>
 
-  <simple-show-modal>MAP.GARDEN</simple-show-modal>
+  <simple-show-modal class="shadow">MAP.GARDEN</simple-show-modal>
 
 
 
