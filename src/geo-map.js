@@ -280,7 +280,6 @@ class GeoMapComponent extends HTMLElement {
       const layerStyles = generateLayerStyle(geoJSONAnalysis, geo_json_component.attrs, layer_id);
       console.log(layerStyles);
       layerStyles.forEach((style) => {
-        console.log(style);
         this.map.addLayer(style);
         this.showLayer(layer_id);
         // Add click event listener to the map

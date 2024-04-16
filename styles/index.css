@@ -44,3 +44,7 @@ geo-map map-container {
 .middle .far, .middle .near {
   display: none;
 }
+
+map-pin {
+  display: none;
+}
