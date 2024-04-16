@@ -21,6 +21,7 @@ class ClickableMarker extends mapboxgl.Marker {
 }
 
 class MapPin extends HTMLElement {
+  initialized = false;
   connectedCallback() {
     this.attrs = this.getAttributeNames().reduce((acc, name) => {
       return { ...acc, [name]: this.getAttribute(name) };
@@ -32,7 +33,11 @@ class MapPin extends HTMLElement {
         return console.error(`The attribute ${attribute} is required;`);
       }
     });
-    parent.addEventListener("GEO MAP LOADED", (e) => {
+
+
+    const parent = this.parent = this.parentElement;
+
+    this.parent.addEventListener("GEO MAP LOADED", (e) => {
       console.log("geo-map-loaded");
       this.initialize();
     });
@@ -41,8 +46,9 @@ class MapPin extends HTMLElement {
     }, 111);
   }
   initialize() {
-    const parent = this.parentElement;
-    this.map = parent.map;
+    if(this.initialized) return
+    console.log('initialize')
+    this.map = this.parent.map;
     if (typeof this.map === undefined) {
       setTimeout(() => {
         this.initialize();
@@ -58,10 +64,40 @@ class MapPin extends HTMLElement {
         this.handleClick()
       });
 
+    this.initialized = true;
   }
 
   handleClick(){
-    console.log(this)
+    console.log(this);
+    const sidebar = this.parent.querySelector('map-sidebar');
+    if(sidebar === null){
+      const markerHeight = 30;
+      const markerRadius = 10;
+      const linearOffset = 25;
+      const popupOffsets = {
+          'top': [0, 0],
+          'top-left': [0, 0],
+          'top-right': [0, 0],
+          'bottom': [0, -markerHeight],
+          'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+          'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+          'left': [markerRadius, (markerHeight - markerRadius) * -1],
+          'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+      };
+
+      const popup = new mapboxgl.Popup({
+        offset: popupOffsets,
+        className: 'map-point-popup'
+      })
+      .setLngLat([
+        parseFloat(this.attrs.longitude),
+        parseFloat(this.attrs.latitude),
+      ])
+      .setHTML(this.innerHTML)
+      .setMaxWidth("300px")
+      .addTo(this.map);
+    }
+
   }
   static get observedAttributes() {
     return ["latitude", "longitude"];

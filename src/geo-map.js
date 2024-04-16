@@ -210,7 +210,7 @@ class GeoMapComponent extends HTMLElement {
 
     this.style.opacity = 1;
     this.handleZoom(this.zoom);
-    this.dispatchEvent(new Event('GEO MAP LOADED'));
+    this.dispatchEvent(new CustomEvent('GEO MAP LOADED'));
 
   }
 
@@ -278,7 +278,6 @@ class GeoMapComponent extends HTMLElement {
       // Add a layer to visualize the GeoJSON data
       const geoJSONAnalysis = await describeGeoJSON(data);
       const layerStyles = generateLayerStyle(geoJSONAnalysis, geo_json_component.attrs, layer_id);
-      console.log(layerStyles);
       layerStyles.forEach((style) => {
         this.map.addLayer(style);
         this.showLayer(layer_id);
