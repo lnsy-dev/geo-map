@@ -5,6 +5,8 @@ import { populateTemplate, getURLValues, ready } from './helpers.js';
 import "./geo-json-component.js";
 import "./pin.js";
 import "./sidebar.js";
+import  SlideShowControls  from './slideshow.js'
+
 
 class GeoMapComponent extends HTMLElement {
 
@@ -68,8 +70,6 @@ class GeoMapComponent extends HTMLElement {
 
     this.navigation_control = this.getAttribute('navigation-control');
     if(this.navigation_control === null) this.navigation_control = false;
-
-    this.slideshow = this.getAttribute('slideshow');
 
     const el = document.createElement('map-container')
     this.appendChild(el)
@@ -198,6 +198,11 @@ class GeoMapComponent extends HTMLElement {
 
     if(this.navigation_control){
       this.initializeNavigationControl();
+    }
+
+    this.slideshow = this.getAttribute('slideshow');
+    if(this.slideshow !== null){
+      this.map.addControl(new SlideShowControls(this.map, this.geo_map))
     }
 
     this.map.on('moveend', (e) => {

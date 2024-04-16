@@ -11,7 +11,6 @@ class MapSidebar extends HTMLElement {
     this.classList.add('show');
   }
   connectedCallback() {
-   
     const closeButton = document.createElement('div');
     closeButton.classList.add('close-button');
     closeButton.innerHTML = 'x'

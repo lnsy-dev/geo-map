@@ -1,25 +1,3 @@
-class ClickableMarker extends mapboxgl.Marker {
-  // new method onClick, sets _handleClick to a function you pass in
-  onClick(handleClick) {
-    this._handleClick = handleClick;
-    return this;
-  }
-
-  // the existing _onMapClick was there to trigger a popup
-  // but we are hijacking it to run a function we define
-  _onMapClick(e) {
-    const targetElement = e.originalEvent.target;
-    const element = this._element;
-
-    if (
-      this._handleClick &&
-      (targetElement === element || element.contains(targetElement))
-    ) {
-      this._handleClick();
-    }
-  }
-}
-
 class MapPin extends HTMLElement {
   initialized = false;
   connectedCallback() {
@@ -34,20 +12,20 @@ class MapPin extends HTMLElement {
       }
     });
 
-
+    if(typeof this.attrs.zoom === undefined){
+      this.attrs.zoom = 1;
+    }
     const parent = this.parent = this.parentElement;
-
     this.parent.addEventListener("GEO MAP LOADED", (e) => {
-      console.log("geo-map-loaded");
       this.initialize();
     });
     setTimeout(() => {
       this.initialize();
     }, 111);
   }
+
   initialize() {
     if(this.initialized) return
-    console.log('initialize')
     this.map = this.parent.map;
     if (typeof this.map === undefined) {
       setTimeout(() => {
@@ -61,13 +39,13 @@ class MapPin extends HTMLElement {
       ])
       .addTo(this.map)
       .onClick(() => {
-        this.handleClick()
+        this.triggerMarker()
       });
 
     this.initialized = true;
   }
 
-  handleClick(){
+  triggerMarker(){
     const sidebar = this.parent.querySelector('map-sidebar');
     if(sidebar === null){
       const markerHeight = 30;
@@ -98,11 +76,21 @@ class MapPin extends HTMLElement {
     } else {
       sidebar.updateContent(this.innerHTML);
     }
-
+    setTimeout(()=>{
+      this.map.flyTo({
+        center: [
+          parseFloat(this.attrs.longitude),
+          parseFloat(this.attrs.latitude),
+        ],
+        zoom: this.attrs.zoom
+      });
+    },333)
   }
+
   static get observedAttributes() {
     return ["latitude", "longitude"];
   }
+
   attributeChangedCallback(name, old_value, new_value) {
     switch (name) {
       case "latitude":
@@ -124,3 +112,20 @@ class MapPin extends HTMLElement {
   }
 }
 customElements.define("map-pin", MapPin);
+
+class ClickableMarker extends mapboxgl.Marker {
+  onClick(handleClick) {
+    this._handleClick = handleClick;
+    return this;
+  }
+  _onMapClick(e) {
+    const targetElement = e.originalEvent.target;
+    const element = this._element;
+    if (
+      this._handleClick &&
+      (targetElement === element || element.contains(targetElement))
+    ) {
+      this._handleClick();
+    }
+  }
+}

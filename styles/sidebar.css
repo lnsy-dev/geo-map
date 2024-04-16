@@ -1,20 +1,17 @@
 map-sidebar {
-  position: absolute;
   display:block;
-  left: -20em;
-  top: 0;
+  position: relative;
+  width: 0em;
+  overflow-x: hidden;
   height: 100%;
-  width: 20em;
   background-color: var(--geo-map-background-color);
-  transition: left 0.3s;
-  z-index: 1000;
+  transition: width 0.3s;
+  z-index: 9000;
 }
 
-
-
 map-sidebar.show {
-    left: 0;
-  }
+  width: 20em;
+}
 map-sidebar.sidebar-content {
     width: 100%;
     height: 100%;
@@ -22,10 +19,10 @@ map-sidebar.sidebar-content {
     flex-direction: column;
   }
 map-sidebar .close-button {
-    padding: 5px;
-    cursor: pointer;
-    right: 4pt;
-    top:1pt;
-    position: absolute;
-    z-index: 1000;
-  }
+  padding: 5px;
+  cursor: pointer;
+  right: 4pt;
+  top:1pt;
+  position: absolute;
+  z-index: 1000;
+}
