@@ -62,42 +62,8 @@ export default class SlideShowControls {
   }
 
   selectLocation(location){
-    console.log(location);
     if(location === undefined) return
-    try{
-       ;[...this.map_container.querySelectorAll('map-information-box')].forEach(box => box.remove())
-
-    } catch(e){
-      //swallow this error for now
-    }
-
-
-    let speed = location.getAttribute('speed')
-    if(speed === null){
-      speed = 1.2
-    } else {
-      speed = parseFloat(speed)
-    }
-
-
-    this.center = [ parseFloat(location.attrs.longitude),  parseFloat(location.attrs.latitude)];
-    console.log(this.center);
-    this.map.flyTo({
-      center: this.center,
-      zoom: location.zoom,
-      // bearing: location.bearing,
-      // pitch: location.pitch,
-      speed:speed
-    })
-
-    if(this.map_container.popups){
-      return
-    } else {
-      const info_box = document.createElement('map-information-box')
-      info_box.innerHTML = location.innerHTML
-      this.map_container.appendChild(info_box)
-    }
-
+    location.triggerMarker()
 
   }
 

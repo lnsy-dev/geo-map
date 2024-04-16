@@ -12,9 +12,17 @@ class MapPin extends HTMLElement {
       }
     });
 
-    if(typeof this.attrs.zoom === undefined){
+    if(typeof this.attrs.zoom === "undefined"){
       this.attrs.zoom = 1;
     }
+    if(typeof this.attrs.bearing === "undefined"){
+      this.attrs.bearing = 0
+    }
+    if(typeof this.attrs.pitch === "undefined"){
+      // console.warn('Could not find pitch, using the default')
+      this.attrs.pitch = 0
+    }
+
     const parent = this.parent = this.parentElement;
     this.parent.addEventListener("GEO MAP LOADED", (e) => {
       this.initialize();
@@ -46,6 +54,7 @@ class MapPin extends HTMLElement {
   }
 
   triggerMarker(){
+    [...this.parent.querySelectorAll('.mapboxgl-popup')].forEach(popup => popup.remove());
     const sidebar = this.parent.querySelector('map-sidebar');
     if(sidebar === null){
       const markerHeight = 30;
@@ -82,7 +91,9 @@ class MapPin extends HTMLElement {
           parseFloat(this.attrs.longitude),
           parseFloat(this.attrs.latitude),
         ],
-        zoom: this.attrs.zoom
+        zoom: this.attrs.zoom,
+        bearing: this.attrs.bearing,
+        pitch: this.attrs.pitch
       });
     },333)
   }
