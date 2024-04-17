@@ -1,5 +1,6 @@
 class MapSidebar extends HTMLElement {
   updateContent(content){
+    console.log(content);
     let main = this.querySelector('main');
     if(main === null){
       main = document.createElement('main');
@@ -9,6 +10,7 @@ class MapSidebar extends HTMLElement {
       main.innerHTML = content;
     }
     this.classList.add('show');
+    document.querySelector('map-container').classList.add('sidebar-open')
   }
   connectedCallback() {
     const closeButton = document.createElement('div');
@@ -16,6 +18,8 @@ class MapSidebar extends HTMLElement {
     closeButton.innerHTML = 'x'
     closeButton.addEventListener('click', () => {
       this.classList.remove('show');
+      document.querySelector('map-container').classList.remove('sidebar-open')
+
     });
     this.appendChild(closeButton);
   }

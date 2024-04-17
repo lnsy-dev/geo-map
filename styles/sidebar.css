@@ -1,3 +1,7 @@
+:root {
+  --sidebar-width: 40em;
+}
+
 map-sidebar {
   display:block;
   position: relative;
@@ -9,8 +13,12 @@ map-sidebar {
   z-index: 9000;
 }
 
+map-container.sidebar-open {
+  margin-left: calc(var(--sidebar-width) * -0.5);
+}
+
 map-sidebar.show {
-  width: 20em;
+  width: var(--sidebar-width);
 }
 
 map-sidebar.sidebar-content {
