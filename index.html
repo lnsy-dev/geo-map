@@ -36,13 +36,12 @@
       --column-background-color: transparent;
     }
 
-
     body {
       margin: 0;
-font-family: neusa-next-std, sans-serif;
-font-weight: 300;
-font-style: normal;
-background-color: #0896af;
+      font-family: neusa-next-std, sans-serif;
+      font-weight: 300;
+      font-style: normal;
+      background-color: #0896af;
     }
 
     span.close-button {
@@ -53,22 +52,27 @@ background-color: #0896af;
 
     simple-modal {
       padding: 1em;
-      background-color: var(--geo-map-background-color);
+      background-color: transparent;
+      border: none;
       color: var(--geo-map-foreground-color);
       overflow: scroll;
     }
 
     .shadow {
       box-shadow: 6px 5px 5px 1px rgba(0,0,0,0.23);
-    -webkit-box-shadow: 6px 5px 5px 1px rgba(0,0,0,0.23);
-    -moz-box-shadow: 6px 5px 5px 1px rgba(0,0,0,0.23);
+      -webkit-box-shadow: 6px 5px 5px 1px rgba(0,0,0,0.23);
+      -moz-box-shadow: 6px 5px 5px 1px rgba(0,0,0,0.23);
+    }
 
+    a {
+      color: var(--geo-map-secondary-foreground-color);
     }
 
     fit-text {
       color: var(--geo-map-secondary-foreground-color);
-      font-family: macula-line, sans-serif;
-      font-weight: 400;
+      font-family: neusa-next-std, sans-serif;
+      text-shadow: 1px 1px 3px rgba(220, 147, 127, 1);
+      font-weight: 800;
       font-style: normal;
       text-transform: uppercase;
       margin: auto;
@@ -78,17 +82,22 @@ background-color: #0896af;
 
     }
 
-
+    simple-modal .close-button {
+      display: none;
+    }
 
     simple-modal header, simple-modal footer {
       background-color: transparent;
     }
 
     simple-show-modal {
-      background-color: var(--geo-map-background-color);
-      color: var(--geo-map-foreground-color);
-      font-family: "transmute", sans-serif;
-      font-weight: 700;
+      background-color: transparent;
+      border: none;
+      color: var(--geo-map-secondary-foreground-color);
+      font-family: neusa-next-std, sans-serif;
+      text-shadow: 1px 1px 3px rgba(220, 147, 127, 1);
+      font-weight: 800;
+
       font-style: normal;
     }
 
@@ -134,8 +143,8 @@ background-color: #0896af;
   zoom=9
   id=los-angeles
 >
-<h1>Map Location Here!</h1>
-  
+<h1>Easy Maps</h1>
+Welcome to map.garden, your go-to consulting firm for all your environmental mapping needs. Our core software, geo-map, is a user-friendly tool that simplifies the process of integrating interactive maps into your projects. 
 </map-pin>
 
 <map-pin
@@ -144,40 +153,59 @@ background-color: #0896af;
   zoom=2
   id=los-angeles
 >
-<h1>Second Location</h1>
+<h1>geo-map-component</h1>
+
+With geo-map, you can easily style and embed geo-json components on your website or application without the need for advanced knowledge of the Mapbox API. Our software allows you to visualize geographical data in a visually appealing and interactive way, making it the perfect solution for environmental projects.
+
+  <github-icon 
+    href="https://github.com/lnsy-dev/geo-map"
+    light
+    style="
+      width: 2em;
+      height: auto;
+    "
+  ></github-icon>
+
   
 </map-pin>
 
-<!-- <map-sidebar></map-sidebar> -->
+<map-pin
+  latitude= 22.86716840617632
+  longitude=0.12701323464881
+  zoom=2
+  id=los-angeles
+>
+<h1>Secure and ready for Enterprise</h1>
+
+But that's not all - our Geo map framework is SOC2 compliant, up to modern web standards, and completely extensible, ensuring that you have access to the latest technology and security features.
+
+</map-pin>
+
+<map-pin
+  latitude= 0.86716840617632
+  longitude=0.12701323464881
+  zoom=2
+  id=los-angeles
+>
+<h1>Join the future Map Framework</h1>
+
+
+<p>Don't waste time struggling with complicated mapping software - let map.garden take care of all your mapping needs. Contact us today to learn more about how we can help you create stunning maps for your environmental projects.</p>
+</map-pin>
+
+<map-sidebar></map-sidebar>
 
 </geo-map>
 
-<!-- <simple-modal class="shadow">
+<simple-modal id="splash_modal">
   <header>
   <fit-text compressor="0.22">Map.Garden</fit-text>
   </header>
-  <main>
-<p>Welcome to map.garden, your go-to consulting firm for all your environmental mapping needs. Our core software, geo-map, is a user-friendly tool that simplifies the process of integrating interactive maps into your projects. </p>
-
-<h2>Modern HTML Standards</h2>
-<p>With geo-map, you can easily style and embed geo-json components on your website or application without the need for advanced knowledge of the Mapbox API. Our software allows you to visualize geographical data in a visually appealing and interactive way, making it the perfect solution for environmental projects.</p>
-
-<h2>Secure and ready for enterprise</h2>
-<p>But that's not all - our Geo map framework is SOC2 compliant, up to modern web standards, and completely extensible, ensuring that you have access to the latest technology and security features.</p>
-
-<h2>Hard won simplicity</h2>
-<p>Don't waste time struggling with complicated mapping software - let map.garden take care of all your mapping needs. Contact us today to learn more about how we can help you create stunning maps for your environmental projects.</p>
-
-</main>
 
   <footer><a href="mailto: lnsy.dev@proton.me">Talk to us</a></footer>
 
 </simple-modal>
-
-  <simple-show-modal class="shadow">MAP.GARDEN</simple-show-modal>
-
- -->
-
+  <simple-show-modal>MAP.GARDEN</simple-show-modal>
   <github-icon 
     href="https://github.com/lnsy-dev/geo-map"
     light
@@ -191,5 +219,13 @@ background-color: #0896af;
     "
   ></github-icon>
 
+
+<script>
+  geo_map.addEventListener('GEO MAP LOADED', (e) => {
+    slide_show_controls.addEventListener('click', (e)=> {
+      splash_modal.hideModal();
+    });  
+  })
+</script>
 </body>
 </html>

@@ -2,7 +2,8 @@ export default class SlideShowControls {
   onAdd(map){
     this.map = map
     this._container = document.createElement('div')
-    this._container.classList = 'mapboxgl-ctrl mapboxgl-ctrl-group'
+    this._container.setAttribute('id', 'slide_show_controls');
+    this._container.classList = 'mapboxgl-ctrl mapboxgl-ctrl-group slide-show-controls'
     this.map_container = document.querySelector('geo-map')
     this.slideshow_index = 0
 
@@ -38,7 +39,6 @@ export default class SlideShowControls {
     this.map_container.addEventListener('NEXT SLIDE', (e) => {  this.nextLocation() })
     this.map_container.addEventListener('PREV SLIDE', (e) => {  this.prevLocation() })
     this.map_container.addEventListener('SHOW HOME', (e) => {
-
          this.selectLocation( this.map_container.querySelector('map-pin'))
       })
 
