@@ -1,5 +1,4 @@
 export function describeGeoJSON(geoJSON){
-  console.log(geoJSON);
   const geometryTypes = new Set();
   const propertyRanges = {};
 
@@ -25,8 +24,6 @@ export function describeGeoJSON(geoJSON){
       });
     }
   });
-
-  console.log(propertyRanges, geometryTypes);
 
   return { propertyRanges, geometryTypes }
 }

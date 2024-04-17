@@ -44,11 +44,7 @@
   zoom=5
   bearing=0
   pitch=15
-  navigation
-  geolocate
-  geocoder=true
-  search-bounds="-118.48176410291592, 33.66337686568919, -117.58037748630301, 34.41894361494393"
->
+  >
 <geo-json 
   src="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson" 
   scale="mag"
@@ -69,9 +65,9 @@
 </geo-json>
 
 <geo-json
-  src="/ca_fault_lines.geojson"
-  scale="1"
-  color="#00ff00"
+  src="https://gis.conservation.ca.gov/server/rest/services/CGS_Earthquake_Hazard_Zones/SHP_Fault_Zones/MapServer/0/query?outFields=*&where=1%3D1&f=geojson"
+  scale="4"
+  color="#ff0000"
   opacity="1"
   id="fault-lines"
 >
