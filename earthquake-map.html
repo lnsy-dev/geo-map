@@ -20,7 +20,7 @@
   <style type="text/css"> 
     body {
       margin: 0;
-      background-color:#E2E8D1;
+      background-color:#75CFF1;
     }
 
     geo-map {
@@ -39,9 +39,9 @@
   id="geo_map"
   accesstoken=pk.eyJ1IjoibGluZHNleW15c3NlIiwiYSI6ImNqOGNlYjMzbDA5am8zMmxid2oyc3hrc2cifQ.hK6NXKEl7bK7va2pRtY0Yw
   styleurl=mapbox://styles/lindseymysse/cksmjomi92t7r17mtye09msa6
-  latitude= 33.86716840617632
-  longitude=-118.12701323464881
-  zoom=1
+  latitude=37.83381888486939
+  longitude=-122.48369693756104
+  zoom=5
   bearing=0
   pitch=15
   navigation
@@ -66,23 +66,17 @@
   </div>
 </template>
 
-<!-- <script>
-  let radius = 5;
-  setInterval(() => {
-    geo_map.map.setPaintProperty('earthquakes-layer', 'circle-radius', radius);
-    radius = ++radius % 30
-  }, 50);
-
-
-</script> -->
-
 </geo-json>
-<!-- 
+
 <geo-json
   src="/ca_fault_lines.geojson"
+  scale="1"
+  color="#00ff00"
+  opacity="1"
+  id="fault-lines"
 >
 
-</geo-json> -->
+</geo-json>
 </geo-map>
 
 </body>

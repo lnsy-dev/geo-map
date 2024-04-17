@@ -284,9 +284,9 @@ class GeoMapComponent extends HTMLElement {
       // Add a layer to visualize the GeoJSON data
       const geoJSONAnalysis = await describeGeoJSON(data);
       const layerStyles = generateLayerStyle(geoJSONAnalysis, geo_json_component.attrs, layer_id);
-      layerStyles.forEach((style) => {
+      layerStyles.forEach((style, index) => {
         this.map.addLayer(style);
-        this.showLayer(layer_id);
+        this.showLayer(style.id);
         // Add click event listener to the map
         this.map.on('click', style.id, (e) => {
           if (e.features.length > 0) {

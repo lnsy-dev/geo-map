@@ -222,10 +222,8 @@ But that's not all - our Geo map framework is SOC2 compliant, up to modern web s
 
 
 <script>
-  geo_map.addEventListener('GEO MAP LOADED', (e) => {
-    slide_show_controls.addEventListener('click', (e)=> {
-      splash_modal.hideModal();
-    });  
+  geo_map.addEventListener('MAP MOVED', (e) => {
+      splash_modal.hideModal(); 
   })
 </script>
 </body>
