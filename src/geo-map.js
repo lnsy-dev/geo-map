@@ -270,7 +270,6 @@ class GeoMapComponent extends HTMLElement {
    */
 
   getGeoJSON(geo_json_component){
-
     fetch(geo_json_component.attrs.src)
     .then(response => response.json())
     .then(async (data) => {

@@ -38,12 +38,13 @@
 <geo-map id="geo_map"
   id="geo_map"
   accesstoken=pk.eyJ1IjoibGluZHNleW15c3NlIiwiYSI6ImNqOGNlYjMzbDA5am8zMmxid2oyc3hrc2cifQ.hK6NXKEl7bK7va2pRtY0Yw
-  styleurl=mapbox://styles/lindseymysse/cksmjomi92t7r17mtye09msa6
+  styleurl=mapbox://styles/lindseymysse/clv464q1a00fc01q1ewvgho0v
   latitude=37.83381888486939
   longitude=-122.48369693756104
   zoom=5
-  bearing=0
-  pitch=15
+  bearing=45
+  pitch=45
+
   >
 <geo-json 
   src="https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson" 
@@ -66,9 +67,9 @@
 
 <geo-json
   src="https://gis.conservation.ca.gov/server/rest/services/CGS_Earthquake_Hazard_Zones/SHP_Fault_Zones/MapServer/0/query?outFields=*&where=1%3D1&f=geojson"
-  scale="4"
+  scale="10"
   color="#ff0000"
-  opacity="1"
+  opacity="0.3"
   id="fault-lines"
 >
 
