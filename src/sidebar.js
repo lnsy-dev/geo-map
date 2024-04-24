@@ -18,7 +18,7 @@ class MapSidebar extends HTMLElement {
     closeButton.innerHTML = 'x'
     closeButton.addEventListener('click', () => {
       this.classList.remove('show');
-      document.querySelector('map-container').classList.remove('sidebar-open')
+      document.querySelector('map-container').classList.remove('sidebar-open');
 
     });
     this.appendChild(closeButton);

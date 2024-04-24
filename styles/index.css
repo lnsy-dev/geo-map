@@ -49,3 +49,6 @@ map-pin {
   display: none;
 }
 
+map-container {
+  width: 100%;
+}
