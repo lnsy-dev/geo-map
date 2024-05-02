@@ -290,13 +290,21 @@ class GeoMapComponent extends HTMLElement {
         this.map.on('click', style.id, (e) => {
           if (e.features.length > 0) {
             const feature = e.features[0];
-            this.map.flyTo({center:feature.geometry.coordinates});
+            let center = []
+            if(feature.layer.type === 'fill'){
+              center = e.lngLat;
+            } else {
+              center = feature.geometry.coordinates
+            }
+
+            this.map.flyTo({center});
+            console.log(geo_json_component.template);
             let popup_content = `<h2>No template defined.</h2><p>${JSON.stringify(feature.properties)}</p>`;
             if(geo_json_component.template !== null){
               popup_content = populateTemplate(feature.properties, geo_json_component.template);
             }
             // Use showPopup method to show the feature's properties
-            this.showPopup(popup_content, feature.geometry.coordinates);
+            this.showPopup(popup_content, center);
           }
         });
 

@@ -119,6 +119,17 @@
       text-align: center;
     }
 
+    /* Hide all scrollbars on the page */
+html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+/* Hide scrollbars on Webkit browsers like Chrome and Safari */
+html::-webkit-scrollbar {
+    display: none;
+}
+
   </style>
 </head>
 <body>

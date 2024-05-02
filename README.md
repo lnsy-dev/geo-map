@@ -210,31 +210,26 @@ This Node.js script converts a shapefile to GeoJSON format using the `ogr2ogr` c
 ## Prerequisites
 - Node.js installed on your system
 - `ogr2ogr` command line tool installed on your system
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/shapefile-to-geojson.git
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+
 ## Usage
 1. Run the script with the following command:
    ```bash
-   node convert-shp-to-geojson.js <path_to_shapefile_folder>
+   node convert-shp-to-geojson.mjs <path_to_shapefile_folder>
    ```
    Example:
    ```bash
    node convert-shp-to-geojson.js /path/to/shapefile/folder
    ```
+
 2. The script will convert the shapefile found in the specified folder to a GeoJSON file and save it in the same folder.
+
 ## Note
 - Make sure the shapefile folder contains only one shapefile with a .shp extension.
 - The script assumes the `ogr2ogr` command line tool is installed globally on your system.
 Feel free to customize and modify the script to suit your specific requirements.
 
 ---
+
 # GeoJSON Custom Element
 The geoJSON custome element allows you to embed GeoJSON in your map. 
 

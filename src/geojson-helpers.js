@@ -2,6 +2,7 @@ export function describeGeoJSON(geoJSON){
   const geometryTypes = new Set();
   const propertyRanges = {};
 
+  console.log('DATA LOOKS LIKE:', geoJSON.features[0]);
   // Loop through the features
   geoJSON.features.forEach((feature) => {
     // Record the geometry type
