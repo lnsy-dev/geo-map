@@ -1,8 +1,7 @@
 import 'https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js';
 import 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js';
-import { describeGeoJSON, generateLayerStyle } from './geojson-helpers.js';
 import { populateTemplate, getURLValues, ready } from './helpers.js';
-import "./geo-json-component.js";
+import { describeGeoJSON, generateLayerStyle } from "./geo-json-component.js";
 import "./pin.js";
 import "./sidebar.js";
 import  SlideShowControls  from './slideshow.js'
