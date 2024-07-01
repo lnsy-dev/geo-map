@@ -52,21 +52,14 @@ class GeoMap extends DataroomElement {
     this.navigation_control = this.getAttribute('navigation-control');
     if(this.navigation_control === null) this.navigation_control = false;
 
-
-    this.render();
-  }
-
-  async render(){
-
-    this.innerHTML = '<map-container id="map"></map-container>';
+    this.create('map-container', {id: 'geo-map'});
 
     this.map = new maplibregl.Map({
-        container: 'map', // container id
+        container: 'geo-map', // container id
         style: this.attrs["style-url"], // style URL
         center: [0, 0], // starting position [lng, lat]
         zoom: 1 // starting zoom
     });
-
 
   }
 }
