@@ -1,0 +1,23 @@
+{
+  "name": "geo-map",
+  "version": "0.9.5",
+  "description": "Geo Map is an easy wrapper for mapbox",
+  "main": "index.js",
+  "scripts": {
+    "test": "lol"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lnsy-dev/geo-map.git"
+  },
+  "keywords": [
+    "mapping",
+    "geo-map"
+  ],
+  "author": "LNSY",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lnsy-dev/geo-map/issues"
+  },
+  "homepage": "https://github.com/lnsy-dev/geo-map#readme"
+}
