@@ -1,9 +1,13 @@
 class GeoJSON extends HTMLElement {
+  loaded = false;
   connectedCallback(){
+
+    // get Attributes
     this.attrs = this.getAttributeNames().reduce((acc, name) => {
       return {...acc, [name]: this.getAttribute(name)};
     }, {});
 
+    // Required Attributes
     const required_attributes = ['src'];
     this.observedAttributes = required_attributes;
     required_attributes.forEach(attribute => {
@@ -11,6 +15,7 @@ class GeoJSON extends HTMLElement {
         return console.error(`The attribute ${attribute} is required;`)
       }
     });
+
     if(this.attrs.scale === null){
       this.attrs.scale = 1;
     }
@@ -21,13 +26,24 @@ class GeoJSON extends HTMLElement {
       this.attrs.opacity = 1
     }
 
+    // if no id, create one
     if(this.attrs.id === null){
       this.attrs.id = crypto.randomUUID()
     }
 
-    this.template = document.querySelector('template');
-  }
+    this.template = this.querySelector('template');
 
+    fetch(this.attrs.src)
+      .then(response => response.json())
+      .then(async (data) => {
+        this.data = data;
+        const geoJSONAnalysis = await describeGeoJSON(data);
+        this.layerStyles = generateLayerStyle(geoJSONAnalysis, this.attrs, this.attrs.id);
+        this.dispatchEvent(new CustomEvent('layer-loaded'));
+        console.log('event dispatched:', this.data, this.layerStyles);
+        this.loaded = true;
+      });
+  }
 }
 
 customElements.define('geo-json', GeoJSON)
@@ -36,7 +52,6 @@ export function describeGeoJSON(geoJSON){
   const geometryTypes = new Set();
   const propertyRanges = {};
 
-  console.log('DATA LOOKS LIKE:', geoJSON.features[0]);
   // Loop through the features
   geoJSON.features.forEach((feature) => {
     // Record the geometry type
@@ -71,7 +86,6 @@ function checkString(string) {
 export function generateLayerStyle(geoJSONAnalysis, style, layerID) {
   const { propertyRanges, geometryTypes } = geoJSONAnalysis;
   const layerStyles = [];
-
 
   geometryTypes.forEach((type, index) => {
     let layerStyle = {
