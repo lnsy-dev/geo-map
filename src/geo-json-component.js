@@ -1,3 +1,6 @@
+
+
+
 class GeoJSON extends HTMLElement {
   connectedCallback(){
     this.attrs = this.getAttributeNames().reduce((acc, name) => {
@@ -20,12 +23,11 @@ class GeoJSON extends HTMLElement {
     if(this.attrs.opacity === null){
       this.attrs.opacity = 1
     }
-
     if(this.attrs.id === null){
       this.attrs.id = crypto.randomUUID()
     }
 
-    this.template = document.querySelector('template');
+    this.template = this.querySelector('template');
   }
 
 }
@@ -76,7 +78,6 @@ export function generateLayerStyle(geoJSONAnalysis, style, layerID) {
   geometryTypes.forEach((type, index) => {
     let layerStyle = {
       id: `${layerID}-layer-${index}`,
-      type: getLayerType(type),
       source: layerID,
       paint: {},
     };
@@ -97,6 +98,7 @@ export function generateLayerStyle(geoJSONAnalysis, style, layerID) {
     switch (type) {
       case 'Point':
       case 'MultiPoint':
+        layerStyle.type = 'circle';
         layerStyle.paint = {
           'circle-radius': style.scale, // Default, could be dynamic based on a property
           'circle-color': style.color, // Default, could be dynamic based on a property
@@ -105,6 +107,7 @@ export function generateLayerStyle(geoJSONAnalysis, style, layerID) {
         break;
       case 'LineString':
       case 'MultiLineString':
+        layerStyle.type = 'line';
         layerStyle.paint = {
           'line-width': 2, // Default, could be dynamic based on a property
           'line-color': style.color, // Default, could be dynamic based on a property
@@ -113,6 +116,7 @@ export function generateLayerStyle(geoJSONAnalysis, style, layerID) {
         break;
       case 'Polygon':
       case 'MultiPolygon':
+        layerStyle.type = 'fill';
         layerStyle.paint = {
           'fill-color': style.color, // Default, could be dynamic based on a property
           'fill-opacity': style.opacity * 1,
@@ -125,21 +129,4 @@ export function generateLayerStyle(geoJSONAnalysis, style, layerID) {
   });
 
   return layerStyles;
-}
-
-function getLayerType(geometryType) {
-  switch (geometryType) {
-    case 'Point':
-    case 'MultiPoint':
-      return 'circle';
-    case 'LineString':
-    case 'MultiLineString':
-      return 'line';
-    case 'Polygon':
-    case 'MultiPolygon':
-      return 'fill';
-    // Add other cases as needed
-    default:
-      return 'circle'; // Default layer type
-  }
 }
