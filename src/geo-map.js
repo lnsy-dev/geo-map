@@ -56,13 +56,40 @@ class GeoMap extends DataroomElement {
     this.local_id = crypto.randomUUID()
     this.create('map-container', {id: this.local_id});
 
+    // get key file, if it doesn't exist return blank
+    
+    this.keys = await fetch('/keys.json').then(res => res.json()).catch(e => "");
+    const style_url = this.attrs["style-url"] + `?key=${this.keys.stylekey}`;
+
     this.map = new maplibregl.Map({
         container: this.local_id, // container id
-        style: this.attrs["style-url"], // style URL
-        center: [0, 0], // starting position [lng, lat]
-        zoom: 1 // starting zoom
+        style: default_map_style, // style URL
+        center: [this.longitude, this.latitude], // starting position [lng, lat]
+        zoom: this.zoom // starting zoom
     });
 
+    this.map.on('load', (e)=>{
+      this.mapLoaded(e);
+    })
+
+    this.map.addControl(
+        new maplibregl.NavigationControl({
+            visualizePitch: true,
+            showZoom: true,
+            showCompass: true
+        })
+    );
+
+    this.map.addControl(
+        new maplibregl.TerrainControl({
+            source: 'terrainSource',
+            exaggeration: 1
+        })
+    );
+  }
+
+  mapLoaded(e){
+    console.log('Map Loaded:', e)
   }
 }
 
