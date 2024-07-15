@@ -5,6 +5,8 @@ import "./pin.js";
 import "./sidebar.js";
 import  SlideShowControls  from './slideshow.js'
 import initializeGeoCoder from './geo-coder.js';
+import default_layers from './default-layers.js';
+import initializeGeoLocate from './geo-locate.js';
 
 
 class GeoMapComponent extends HTMLElement {
@@ -87,13 +89,7 @@ class GeoMapComponent extends HTMLElement {
   }
 
 
-  initializeGeoLocate(){
-    const geolocate = new mapboxgl.GeolocateControl({
-      showAccuracy: false,
-      showUserLocation: false
-    });
-    this.map.addControl(geolocate);
-  }
+
 
   initializeNavigationControl(){
     const nav_control = new mapboxgl.NavigationControl({
@@ -164,20 +160,13 @@ class GeoMapComponent extends HTMLElement {
   mapLoaded(){
     this.geocoder = this.getAttribute('geocoder');
     if(this.geocoder !== null){   
-      if(typeof(MapboxGeocoder) === 'undefined'){
-        this.innerHTML = `If you would like to use the geocoder element, 
-        you must include the geocoder plugin in your HTML: 
-        https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-geocoder/`
-        return
-      } 
-
       let bbox = this.getAttribute('search-bounds');
       initializeGeoCoder(this.map, bbox);
     }
 
     this.geolocate_attribute = this.getAttribute('geolocate')
     if(this.geolocate_attribute !== null){
-      this.initializeGeoLocate();
+      initializeGeoLocate(this.map);
     }
 
     if(this.navigation_control){
@@ -324,103 +313,3 @@ class GeoMapComponent extends HTMLElement {
 customElements.define('geo-map', GeoMapComponent);
 
 
-const default_layers = [
-  "background",
-  "satellite",
-  "tunnel-minor-case",
-  "tunnel-street-case",
-  "tunnel-minor-link-case",
-  "tunnel-secondary-tertiary-case",
-  "tunnel-primary-case",
-  "tunnel-major-link-case",
-  "tunnel-motorway-trunk-case",
-  "tunnel-path",
-  "tunnel-steps",
-  "tunnel-pedestrian",
-  "tunnel-minor",
-  "tunnel-minor-link",
-  "tunnel-major-link",
-  "tunnel-street",
-  "tunnel-street-low",
-  "tunnel-secondary-tertiary",
-  "tunnel-primary",
-  "tunnel-motorway-trunk",
-  "road-path",
-  "road-steps",
-  "road-pedestrian",
-  "road-minor-case",
-  "road-street-case",
-  "road-minor-link-case",
-  "road-secondary-tertiary-case",
-  "road-primary-case",
-  "road-major-link-case",
-  "road-motorway-trunk-case",
-  "road-minor",
-  "road-minor-link",
-  "road-major-link",
-  "road-street",
-  "road-street-low",
-  "road-secondary-tertiary",
-  "road-primary",
-  "road-motorway-trunk",
-  "bridge-path",
-  "bridge-steps",
-  "bridge-pedestrian",
-  "bridge-minor-case",
-  "bridge-street-case",
-  "bridge-minor-link-case",
-  "bridge-secondary-tertiary-case",
-  "bridge-primary-case",
-  "bridge-major-link-case",
-  "bridge-motorway-trunk-case",
-  "bridge-minor",
-  "bridge-minor-link",
-  "bridge-major-link",
-  "bridge-street",
-  "bridge-street-low",
-  "bridge-secondary-tertiary",
-  "bridge-primary",
-  "bridge-motorway-trunk",
-  "bridge-major-link-2-case",
-  "bridge-motorway-trunk-2-case",
-  "bridge-major-link-2",
-  "bridge-motorway-trunk-2",
-  "aerialway",
-  "admin-1-boundary-bg",
-  "admin-0-boundary-bg",
-  "admin-1-boundary",
-  "admin-0-boundary",
-  "admin-0-boundary-disputed",
-  "road-label",
-  "road-intersection",
-  "road-number-shield",
-  "road-exit-shield",
-  "path-pedestrian-label",
-  "ferry-aerialway-label",
-  "waterway-label",
-  "natural-line-label",
-  "natural-point-label",
-  "water-line-label",
-  "water-point-label",
-  "poi-label",
-  "transit-label",
-  "airport-label",
-  "settlement-subdivision-label",
-  "settlement-minor-label",
-  "settlement-major-label",
-  "state-label",
-  "country-label",
-  "continent-label",
-  'tunnel-oneway-arrow-blue',
-  'tunnel-oneway-arrow-white',
-  'road-oneway-arrow-blue',
-  'road-oneway-arrow-white',
-  'bridge-oneway-arrow-blue',
-  'bridge-oneway-arrow-white',
-  'buildingswithid',
-  'nearby-roofs',
-  'building',
-  'council-wide',
-  'council-wide-query',
-  'council-wide-borders'
-];
