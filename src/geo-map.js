@@ -8,6 +8,8 @@ import initializeGeoCoder from './geo-coder.js';
 import default_layers from './default-layers.js';
 import initializeGeoLocate from './geo-locate.js';
 import initializeNavigationControl from './nav-control.js';
+import "./find-nearest.js";
+import "./layer-list.js";
 
 
 class GeoMapComponent extends HTMLElement {
@@ -161,7 +163,7 @@ class GeoMapComponent extends HTMLElement {
     }
 
     if(this.navigation_control){
-      initializeNavigationControl();
+      initializeNavigationControl(this.map);
     }
 
     this.slideshow = this.getAttribute('slideshow');
@@ -183,23 +185,27 @@ class GeoMapComponent extends HTMLElement {
     this.dispatchEvent(new CustomEvent('GEO MAP LOADED'));
 
   }
-
-  // Layer Tools
+  
   showLayer(layer_id){  
-    const visibility = this.map.getLayoutProperty(layer_id, 'visibility');
-    if (typeof visibility !== 'undefined') {
-      if (visibility === 'none') {
+    try {
+      if (this.map.getLayer(layer_id)) {
         this.map.setLayoutProperty(layer_id, 'visibility', 'visible');
+      } else {
+        console.warn(`Layer with id ${layer_id} not found.`);
       }
+    } catch (error) {
+      console.error('Error showing layer:', error);
     }
   }
-
   hideLayer(layer_id){
-    var visibility = this.map.getLayoutProperty(layer_id, 'visibility');
-    if (typeof visibility !== 'undefined') {
-      if (visibility !== 'none') {
+    try {
+      if (this.map.getLayer(layer_id)) {
         this.map.setLayoutProperty(layer_id, 'visibility', 'none');
+      } else {
+        console.warn(`Layer with id ${layer_id} not found.`);
       }
+    } catch (error) {
+      console.error('Error hiding layer:', error);
     }
   }
 
@@ -224,6 +230,8 @@ class GeoMapComponent extends HTMLElement {
         unique_layers.push(layer.id);
       }
     });
+
+    console.log(unique_layers);
     return unique_layers;
   }
 

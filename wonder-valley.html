@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Vanilla JS / CSS boilerplate for generating JS and CSS libraries in plain CSS, JS, and HTML. Created by LNSY.">
+  <meta name="keywords" content="Vanilla JS, CSS, boilerplate, library, LNSY">
+  <meta name="author" content="LNSY">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph meta tags for better sharing on social media -->
+  <meta property="og:title" content="Vanilla JS / CSS boilerplate">
+  <meta property="og:description" content="Vanilla JS / CSS boilerplate for generating JS and CSS libraries in plain CSS, JS, and HTML. Created by LNSY.">
+  <meta property="og:image" content="./assets/splash.jpg">
+  <meta property="og:url" content="https://example.com"> <!-- Replace with your actual URL -->
+
+  <title>geo map</title>
+  <link rel="stylesheet" type="text/css" href="./styles/index.css">
+  <script src="./src/index.js" type="module"></script>
+  <style type="text/css"> 
+    body {
+      margin: 0;
+      background-color:#fff;
+    }
+
+    .earthquake {
+      text-align:center;
+      color: black;
+    }
+
+    nav {
+      position: fixed;
+      z-index: 1000;
+      left: 0px;
+      top: 0px;
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+
+<geo-map id="geo_map"
+  id="geo_map"
+  accesstoken=pk.eyJ1IjoibGluZHNleW15c3NlIiwiYSI6ImNqOGNlYjMzbDA5am8zMmxid2oyc3hrc2cifQ.hK6NXKEl7bK7va2pRtY0Yw
+  styleurl=mapbox://styles/lindseymysse/clynb4tfw03iu01r47rk232pm
+  latitude=34.030041604426685
+  longitude=-115.82733023713342
+  zoom=10.958573586116026
+  bearing=0
+  pitch=70
+  navigation-control=true
+
+  >
+
+
+  <nav>
+    <h1> Nav</h1>
+    <find-nearest search-term="Lowes"></find-nearest>
+    <find-nearest search-term="Home Depot"></find-nearest>
+    <find-nearest search-term="Hardware"></find-nearest>
+
+    <find-nearest search-term="Grocery"></find-nearest>
+
+    <find-nearest search-term="train station"></find-nearest>
+    <layer-list></layer-list>
+  </nav>
+
+  <map-pin
+  latitude= 34.1554
+  longitude=-115.8758
+  zoom=9
+  id=wonder-valley
+>
+<h1>Wonder Valley, CA</h1>
+
+</map-pin>
+
+
+
+<geo-json
+  src="California_Rail_Stations.geojson"
+  scale="5"
+  color="blue"
+  opacity="1"
+  id="rail-stations"
+>
+<template>
+  <div class="train-station">
+    <h3>Train Station</h3>
+    <h1>${STATION}</h1>
+  </div>
+</template>
+
+</geo-json>
+
+<geo-json
+  src="CA_Transit_Stops.geojson"
+  scale="5"
+  color="green"
+  opacity="1"
+  id="transit-stops"
+
+>
+<template>
+<div class="transit-stop">
+  <h3>Transit Stop</h3>
+  <h1>${stop_name}</h1>
+  <h2>${agency}</h2>
+</div>
+</template>
+</geo-json>
+
+<geo-json
+  src="California_Rail_Network.geojson"
+  scale="5"
+  color="yellow"
+  opacity="1"
+  id="rail-network"
+
+>
+</geo-json>
+
+
+<geo-json
+  src="Building_Climate_Zones.geojson"
+  scale="5"
+  color="pink"
+  opacity="0.1"
+  id="building-climate_zones"
+>
+
+</geo-json>
+
+
+<geo-json
+  src="https://gis.conservation.ca.gov/server/rest/services/CGS_Earthquake_Hazard_Zones/SHP_Fault_Zones/MapServer/0/query?outFields=*&where=1%3D1&f=geojson"
+  scale="10"
+  color="#ff0000"
+  opacity="0.3"
+  id="fault-lines"
+>
+<template>
+  <div class="fault-line">
+    <h3>Fault Line</h3>
+    <h1>${QUAD_NAME}</h1>
+    <p><a href="${GEOPDFLINK}" target="_blank">Report</a></p>
+  </div>
+</template>
+
+</geo-json>
+</geo-map>
+
+</body>
+</html>

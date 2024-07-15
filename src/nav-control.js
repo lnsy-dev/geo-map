@@ -3,6 +3,7 @@ function initializeNavigationControl(map){
     visualizePitch: true
   })
   map.addControl(nav_control);
+  console.log('Added Nav Control')
 
 }
 

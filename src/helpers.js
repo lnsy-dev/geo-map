@@ -46,3 +46,17 @@ export function populateTemplate(dataObject, template) {
   return populatedTemplate;
 }
 
+
+export function findNearestParentOfType(element, type){
+  // Loop through the parent elements until the specified type is found or there are no more parents
+  while (element.parentElement) {
+    // If the current parent element matches the specified type, return it
+    if (element.parentElement.tagName.toLowerCase() === type.toLowerCase()) {
+      return element.parentElement;
+    }
+    // Move to the next parent element
+    element = element.parentElement;
+  }
+  // If no matching parent element is found, return null
+  return null;
+};
