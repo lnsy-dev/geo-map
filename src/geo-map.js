@@ -1,8 +1,9 @@
 import "https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js";
-
 import DataroomElement from './vendor/dataroom-element.js';
-import { default_layers }  from './default-layers.js';
 import { ready, getURLValues } from './vendor/helpers.js';
+import default_layers  from './default-layers.js';
+import default_map_style from './default-style.js';
+
 
 class GeoMap extends DataroomElement {
   async initialize(){
@@ -52,10 +53,11 @@ class GeoMap extends DataroomElement {
     this.navigation_control = this.getAttribute('navigation-control');
     if(this.navigation_control === null) this.navigation_control = false;
 
-    this.create('map-container', {id: 'geo-map'});
+    this.local_id = crypto.randomUUID()
+    this.create('map-container', {id: this.local_id});
 
     this.map = new maplibregl.Map({
-        container: 'geo-map', // container id
+        container: this.local_id, // container id
         style: this.attrs["style-url"], // style URL
         center: [0, 0], // starting position [lng, lat]
         zoom: 1 // starting zoom

@@ -1,4 +1,4 @@
-export const default_layers = [
+const default_layers = [
   "background",
   "satellite",
   "tunnel-minor-case",
@@ -98,3 +98,5 @@ export const default_layers = [
   'council-wide-query',
   'council-wide-borders'
 ];
+
+export default default_layers;

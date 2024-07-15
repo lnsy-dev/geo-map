@@ -1,0 +1,6 @@
+@import "https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css";
+
+geo-map {
+  display: block;
+}
+
