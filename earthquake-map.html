@@ -16,7 +16,7 @@
 
   <title>geo map</title>
   <link rel="stylesheet" type="text/css" href="./styles/index.css">
-  <script src="./src/index.js" type="module"></script>
+  <script src="./dist/geo-map.min.js" type="module"></script>
   <style type="text/css"> 
     body {
       margin: 0;
@@ -24,7 +24,7 @@
     }
 
     geo-map {
-      color: red;
+
     }
 
     .earthquake {
@@ -67,12 +67,17 @@
 
 <geo-json
   src="https://gis.conservation.ca.gov/server/rest/services/CGS_Earthquake_Hazard_Zones/SHP_Fault_Zones/MapServer/0/query?outFields=*&where=1%3D1&f=geojson"
-  scale="10"
-  color="#ff0000"
+  scale="100"
+  color="red"
   opacity="0.3"
   id="fault-lines"
 >
-
+<template>
+  <div class="fault-line">
+    <h1>${QUAD_NAME}</h1>
+    <p><a href="${GEOPDFLINK}" target="_blank">Report</a></p>
+  </div>
+</template>
 </geo-json>
 </geo-map>
 

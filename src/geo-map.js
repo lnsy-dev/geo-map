@@ -1,10 +1,13 @@
 import 'https://api.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js';
-import 'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js';
 import { populateTemplate, getURLValues, ready } from './helpers.js';
 import { describeGeoJSON, generateLayerStyle } from "./geo-json-component.js";
 import "./pin.js";
 import "./sidebar.js";
 import  SlideShowControls  from './slideshow.js'
+import initializeGeoCoder from './geo-coder.js';
+import default_layers from './default-layers.js';
+import initializeGeoLocate from './geo-locate.js';
+import initializeNavigationControl from './nav-control.js';
 
 
 class GeoMapComponent extends HTMLElement {
@@ -86,39 +89,6 @@ class GeoMapComponent extends HTMLElement {
     this.map.on('load', () => {this.mapLoaded()})
   }
 
-  initializeGeoCoder(){
-    let bbox = this.getAttribute('search-bounds');
-    if(bbox !== null){
-      bbox = bbox.split(',').map(d => {
-        return Number(d.trim());
-      });
-    }
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-      zoom: 18,
-      marker: false,
-      bbox:bbox,
-      placeholder: 'Search for an Address'
-    })
-    this.map.addControl( geocoder )
-  }
-
-  initializeGeoLocate(){
-    const geolocate = new mapboxgl.GeolocateControl({
-      showAccuracy: false,
-      showUserLocation: false
-    });
-    this.map.addControl(geolocate);
-  }
-
-  initializeNavigationControl(){
-    const nav_control = new mapboxgl.NavigationControl({
-      visualizePitch: true
-    })
-    this.map.addControl(nav_control);
-  }
-
   handleMoveEnd(e){
     let coords = this.map.getCenter();
     const bounds = this.map.getBounds();
@@ -181,22 +151,17 @@ class GeoMapComponent extends HTMLElement {
   mapLoaded(){
     this.geocoder = this.getAttribute('geocoder');
     if(this.geocoder !== null){   
-      if(typeof(MapboxGeocoder) === 'undefined'){
-        this.innerHTML = `If you would like to use the geocoder element, 
-        you must include the geocoder plugin in your HTML: 
-        https://docs.mapbox.com/mapbox-gl-js/example/mapbox-gl-geocoder/`
-        return
-      } 
-      this.initializeGeoCoder();
+      let bbox = this.getAttribute('search-bounds');
+      initializeGeoCoder(this.map, bbox);
     }
 
     this.geolocate_attribute = this.getAttribute('geolocate')
     if(this.geolocate_attribute !== null){
-      this.initializeGeoLocate();
+      initializeGeoLocate(this.map);
     }
 
     if(this.navigation_control){
-      this.initializeNavigationControl();
+      initializeNavigationControl();
     }
 
     this.slideshow = this.getAttribute('slideshow');
@@ -248,6 +213,7 @@ class GeoMapComponent extends HTMLElement {
       return console.error('Layer not found.');
     }
   }
+  
   getLayers(){
     // These Layers are Default.
     const layers = this.map.getStyle().layers;
@@ -295,9 +261,7 @@ class GeoMapComponent extends HTMLElement {
             } else {
               center = feature.geometry.coordinates
             }
-
             this.map.flyTo({center});
-            console.log(geo_json_component.template);
             let popup_content = `<h2>No template defined.</h2><p>${JSON.stringify(feature.properties)}</p>`;
             if(geo_json_component.template !== null){
               popup_content = populateTemplate(feature.properties, geo_json_component.template);
@@ -317,7 +281,6 @@ class GeoMapComponent extends HTMLElement {
           this.map.getCanvas().style.cursor = '';
         });
       });
-
 
       this.dispatchEvent(
         new CustomEvent('GEO JSON LOADED', 
@@ -339,103 +302,3 @@ class GeoMapComponent extends HTMLElement {
 customElements.define('geo-map', GeoMapComponent);
 
 
-const default_layers = [
-  "background",
-  "satellite",
-  "tunnel-minor-case",
-  "tunnel-street-case",
-  "tunnel-minor-link-case",
-  "tunnel-secondary-tertiary-case",
-  "tunnel-primary-case",
-  "tunnel-major-link-case",
-  "tunnel-motorway-trunk-case",
-  "tunnel-path",
-  "tunnel-steps",
-  "tunnel-pedestrian",
-  "tunnel-minor",
-  "tunnel-minor-link",
-  "tunnel-major-link",
-  "tunnel-street",
-  "tunnel-street-low",
-  "tunnel-secondary-tertiary",
-  "tunnel-primary",
-  "tunnel-motorway-trunk",
-  "road-path",
-  "road-steps",
-  "road-pedestrian",
-  "road-minor-case",
-  "road-street-case",
-  "road-minor-link-case",
-  "road-secondary-tertiary-case",
-  "road-primary-case",
-  "road-major-link-case",
-  "road-motorway-trunk-case",
-  "road-minor",
-  "road-minor-link",
-  "road-major-link",
-  "road-street",
-  "road-street-low",
-  "road-secondary-tertiary",
-  "road-primary",
-  "road-motorway-trunk",
-  "bridge-path",
-  "bridge-steps",
-  "bridge-pedestrian",
-  "bridge-minor-case",
-  "bridge-street-case",
-  "bridge-minor-link-case",
-  "bridge-secondary-tertiary-case",
-  "bridge-primary-case",
-  "bridge-major-link-case",
-  "bridge-motorway-trunk-case",
-  "bridge-minor",
-  "bridge-minor-link",
-  "bridge-major-link",
-  "bridge-street",
-  "bridge-street-low",
-  "bridge-secondary-tertiary",
-  "bridge-primary",
-  "bridge-motorway-trunk",
-  "bridge-major-link-2-case",
-  "bridge-motorway-trunk-2-case",
-  "bridge-major-link-2",
-  "bridge-motorway-trunk-2",
-  "aerialway",
-  "admin-1-boundary-bg",
-  "admin-0-boundary-bg",
-  "admin-1-boundary",
-  "admin-0-boundary",
-  "admin-0-boundary-disputed",
-  "road-label",
-  "road-intersection",
-  "road-number-shield",
-  "road-exit-shield",
-  "path-pedestrian-label",
-  "ferry-aerialway-label",
-  "waterway-label",
-  "natural-line-label",
-  "natural-point-label",
-  "water-line-label",
-  "water-point-label",
-  "poi-label",
-  "transit-label",
-  "airport-label",
-  "settlement-subdivision-label",
-  "settlement-minor-label",
-  "settlement-major-label",
-  "state-label",
-  "country-label",
-  "continent-label",
-  'tunnel-oneway-arrow-blue',
-  'tunnel-oneway-arrow-white',
-  'road-oneway-arrow-blue',
-  'road-oneway-arrow-white',
-  'bridge-oneway-arrow-blue',
-  'bridge-oneway-arrow-white',
-  'buildingswithid',
-  'nearby-roofs',
-  'building',
-  'council-wide',
-  'council-wide-query',
-  'council-wide-borders'
-];
