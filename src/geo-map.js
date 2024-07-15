@@ -7,6 +7,7 @@ import  SlideShowControls  from './slideshow.js'
 import initializeGeoCoder from './geo-coder.js';
 import default_layers from './default-layers.js';
 import initializeGeoLocate from './geo-locate.js';
+import initializeNavigationControl from './nav-control.js';
 
 
 class GeoMapComponent extends HTMLElement {
@@ -88,16 +89,6 @@ class GeoMapComponent extends HTMLElement {
     this.map.on('load', () => {this.mapLoaded()})
   }
 
-
-
-
-  initializeNavigationControl(){
-    const nav_control = new mapboxgl.NavigationControl({
-      visualizePitch: true
-    })
-    this.map.addControl(nav_control);
-  }
-
   handleMoveEnd(e){
     let coords = this.map.getCenter();
     const bounds = this.map.getBounds();
@@ -170,7 +161,7 @@ class GeoMapComponent extends HTMLElement {
     }
 
     if(this.navigation_control){
-      this.initializeNavigationControl();
+      initializeNavigationControl();
     }
 
     this.slideshow = this.getAttribute('slideshow');
@@ -222,6 +213,7 @@ class GeoMapComponent extends HTMLElement {
       return console.error('Layer not found.');
     }
   }
+  
   getLayers(){
     // These Layers are Default.
     const layers = this.map.getStyle().layers;
@@ -269,9 +261,7 @@ class GeoMapComponent extends HTMLElement {
             } else {
               center = feature.geometry.coordinates
             }
-
             this.map.flyTo({center});
-            console.log(geo_json_component.template);
             let popup_content = `<h2>No template defined.</h2><p>${JSON.stringify(feature.properties)}</p>`;
             if(geo_json_component.template !== null){
               popup_content = populateTemplate(feature.properties, geo_json_component.template);
@@ -291,7 +281,6 @@ class GeoMapComponent extends HTMLElement {
           this.map.getCanvas().style.cursor = '';
         });
       });
-
 
       this.dispatchEvent(
         new CustomEvent('GEO JSON LOADED', 
