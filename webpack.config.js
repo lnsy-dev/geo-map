@@ -51,12 +51,6 @@ module.exports = {
       filename: 'index.html', // Output file name
       inject: 'body', // Inject script tag into the body
       scriptLoading: 'blocking', // Ensure script tag is loaded in the correct order
-    }),
-    new CopyWebpackPlugin({
-      patterns: [
-        { from: 'assets', to: 'assets' }
-        // Add more patterns if needed for other folders or files
-      ],
     })
   ]
 };
